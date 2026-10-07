@@ -45,6 +45,7 @@ BADGES = {
 # Mediator data. Bios, specialisms and accreditations are word for word from the previous site.
 MEDIATORS = {
     "lucie": {
+        "author_bio": "Lucie-Anne Rhodes founded Vestia Mediation after more than fourteen years in property litigation and dispute resolution, latterly as Head of Legal for the UK's largest property management and real estate services provider.",
         "name": "Lucie-Anne Rhodes",
         "img": "lucie-anne-rhodes",
         "path": "lucie-annerhodes",
@@ -71,6 +72,7 @@ MEDIATORS = {
         "knows": ["Property disputes", "Landlord and tenant disputes", "Commercial litigation", "Civil litigation"],
     },
     "claudia": {
+        "author_bio": 'Claudia Haisman-Green is a Consultant Mediator at Vestia. She spent more than two decades as a Commercial Real Estate solicitor, much of it in senior roles at leading international firms.',
         "name": "Claudia Haisman-Green",
         "img": "claudia-haisman-green",
         "path": "claudiahaisman-green",
@@ -98,6 +100,7 @@ MEDIATORS = {
         "knows": ["Property disputes", "Commercial real estate", "Partnership disputes", "Corporate disputes", "Negotiation training"],
     },
     "gurprit": {
+        "author_bio": 'Gurprit Mattu is a Consultant Mediator at Vestia and a dual-qualified barrister in England and Wales and the British Virgin Islands, specialising in high-value commercial and private disputes.',
         "name": "Gurprit Mattu",
         "img": "gurprit-mattu",
         "path": "gurpritmattu",
@@ -126,6 +129,7 @@ MEDIATORS = {
         "knows": ["Commercial disputes", "Shareholder and partnership disputes", "Probate disputes", "Employment disputes", "Restorative justice"],
     },
     "amy": {
+        "author_bio": 'Amy Kaur is an Associate Mediator at Vestia, focusing on employment, community and private family mediation.',
         "name": "Amy Kaur",
         "img": "amy-kaur",
         "path": "amykaur",
@@ -631,8 +635,8 @@ def build():
                 f'<p>A free 15-minute call with a mediator is the quickest way to find out whether mediation suits your dispute.</p>'
                 f'<a class="btn btn-primary" href="{r}book-a-call">Book a free 15-minute call</a>'
                 f'<a class="btn btn-secondary" href="{r}start-your-mediation">Start your mediation</a></div>'
-                f'<div class="card" style="margin-top:16px;height:auto"><h2>About the author</h2><p>{esc(m["name"])} is a {esc(m["role"].lower())} at Vestia Mediation. '
-                f'{esc(m["strip"])}.</p><a class="text-link arrow" href="{r}{m["path"]}">Read profile</a></div></aside></div></div>'
+                f'<div class="card" style="margin-top:16px;height:auto"><h2>About the author</h2><p>{esc(m["author_bio"])}</p>'
+                f'<a class="text-link arrow" href="{r}{m["path"]}">Read profile</a></div></aside></div></div>'
                 f'<div class="section section--paper"><div class="wrap"><h2>More from Insights</h2>{related}</div></div>'
             )
         elif meta.get("h1"):
