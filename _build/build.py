@@ -676,7 +676,7 @@ def build():
         base_404 = ""
         if ptype == "404":
             # GitHub Pages serves this file for any missing path, so set a base for relative links.
-            base_404 = ("<script>document.write('<base href=\"' + (location.hostname.slice(-10) === 'github.io' ? '/' + "
+            base_404 = ("<script>document.write('<base href=\"' + (/github\\.io$/.test(location.hostname) ? '/' + "
                         "location.pathname.split('/')[1] + '/' : '/') + '\">')</script>\n")
         block = "" if meta.get("booking") == "no" else booking_block(r)
 
