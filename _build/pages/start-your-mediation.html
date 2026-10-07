@@ -1,0 +1,150 @@
+---
+title: Start Your Mediation | Tell Us About Your Dispute | Vestia Mediation
+description: Answer six quick questions about your dispute and we'll match you with the right mediator and come back with a clear next step, usually within one working day.
+nav: none
+h1: Start your mediation
+crumb: Start your mediation
+eyebrow: Mediation intake
+lead: Six short questions, about three minutes. Nothing here commits you to anything. It helps us match the right mediator and come back to you with a clear next step, usually within one working day.
+priority: 0.8
+---
+<section class="section">
+<div class="wrap">
+<div class="wizard">
+<div class="form-panel">
+<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto: with a structured summary.
+     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
+     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute.
+     The step-by-step behaviour still works; the final button then submits the form normally.
+     If you swap, also change the "Send to Vestia" note in step 6. -->
+<form id="intake-form" class="form" action="mailto:{{EMAIL}}?subject=Mediation%20enquiry" method="post" enctype="text/plain"
+ data-mailto="{{EMAIL}}" data-subject="Mediation enquiry: {type} dispute" data-intro="MEDIATION ENQUIRY (sent from the Vestia website intake)">
+<div class="wizard-progress js-only" aria-hidden="true"></div>
+<p class="wizard-count js-only" aria-live="polite"></p>
+
+<fieldset data-step data-section="The dispute">
+<legend class="step-title">What kind of dispute is it?</legend>
+<span class="hint">Rough categories are fine. Many disputes are more than one thing.</span>
+<div class="choices">
+<label class="choice"><input type="radio" name="type" data-label="Dispute type" value="Property" required><span>Property</span></label>
+<label class="choice"><input type="radio" name="type" value="Landlord and tenant"><span>Landlord and tenant</span></label>
+<label class="choice"><input type="radio" name="type" value="Boundary or neighbour"><span>Boundary or neighbour</span></label>
+<label class="choice"><input type="radio" name="type" value="Commercial or contract"><span>Commercial or contract</span></label>
+<label class="choice"><input type="radio" name="type" value="Partnership or shareholder"><span>Partnership or shareholder</span></label>
+<label class="choice"><input type="radio" name="type" value="Probate or inheritance"><span>Probate or inheritance</span></label>
+<label class="choice"><input type="radio" name="type" value="Workplace or employment"><span>Workplace or employment</span></label>
+<label class="choice"><input type="radio" name="type" value="Family"><span>Family</span></label>
+<label class="choice"><input type="radio" name="type" value="Community"><span>Community</span></label>
+<label class="choice"><input type="radio" name="type" value="Something else"><span>Something else</span></label>
+</div>
+<div class="field" style="margin-top:22px">
+<label for="in-about">In a sentence, what's it about? <span class="opt">(optional)</span></label>
+<input id="in-about" name="about" type="text" data-label="In brief" placeholder="For example: tenant disputes the dilapidations claim at lease end">
+</div>
+</fieldset>
+
+<fieldset data-step data-section="The dispute">
+<legend class="step-title">Where have things got to?</legend>
+<span class="hint">Mediation can work at any stage, but this shapes how we set it up.</span>
+<div class="choices">
+<label class="choice"><input type="radio" name="stage" data-label="Stage" value="Early disagreement, no solicitors yet" required><span>Early disagreement, no solicitors yet</span></label>
+<label class="choice"><input type="radio" name="stage" value="Solicitors are involved"><span>Solicitors are involved</span></label>
+<label class="choice"><input type="radio" name="stage" value="Court or tribunal proceedings have started"><span>Court or tribunal proceedings have started</span></label>
+<label class="choice"><input type="radio" name="stage" value="A hearing or deadline is coming up"><span>A hearing or deadline is coming up</span></label>
+</div>
+<div class="field" style="margin-top:22px">
+<label for="in-dates">Any key dates we should know about? <span class="opt">(optional)</span></label>
+<input id="in-dates" name="dates" type="text" data-label="Key dates" placeholder="For example: CMC on 14 November, or stay expires end of January">
+</div>
+</fieldset>
+
+<fieldset data-step data-section="The dispute">
+<legend class="step-title">Roughly what is at stake?</legend>
+<span class="hint">A broad band is all we need. It tells us which fee band and format are likely to fit.</span>
+<div class="choices">
+<label class="choice"><input type="radio" name="value" data-label="Amount at stake" value="Under £20,000" required><span>Under £20,000</span></label>
+<label class="choice"><input type="radio" name="value" value="£20,000 to £100,000"><span>£20,000 to £100,000</span></label>
+<label class="choice"><input type="radio" name="value" value="£100,000 to £1 million"><span>£100,000 to £1 million</span></label>
+<label class="choice"><input type="radio" name="value" value="Over £1 million"><span>Over £1 million</span></label>
+<label class="choice"><input type="radio" name="value" value="Not about money, or hard to value"><span>Not about money, or hard to value</span></label>
+<label class="choice"><input type="radio" name="value" value="Not sure"><span>Not sure</span></label>
+</div>
+<fieldset style="margin-top:24px">
+<legend>How many parties are involved?</legend>
+<div class="choices">
+<label class="choice"><input type="radio" name="parties" data-label="Number of parties" value="2" checked><span>2</span></label>
+<label class="choice"><input type="radio" name="parties" value="3"><span>3</span></label>
+<label class="choice"><input type="radio" name="parties" value="4 or more"><span>4 or more</span></label>
+</div>
+</fieldset>
+</fieldset>
+
+<fieldset data-step data-section="Format">
+<legend class="step-title">How would you prefer to mediate?</legend>
+<span class="hint">Choose what appeals. We'll advise on what tends to work best for disputes like yours.</span>
+<div class="choices">
+<label class="choice"><input type="radio" name="format" data-label="Preferred format" value="Online" required><span>Online</span></label>
+<label class="choice"><input type="radio" name="format" value="In person"><span>In person</span></label>
+<label class="choice"><input type="radio" name="format" value="Hybrid"><span>Hybrid</span></label>
+<label class="choice"><input type="radio" name="format" value="Not sure yet"><span>Not sure yet</span></label>
+</div>
+<fieldset style="margin-top:24px">
+<legend>Half day or full day?</legend>
+<div class="choices">
+<label class="choice"><input type="radio" name="length" data-label="Length" value="Half day (4 hours)"><span>Half day (4 hours)</span></label>
+<label class="choice"><input type="radio" name="length" value="Full day (8 hours)"><span>Full day (8 hours)</span></label>
+<label class="choice"><input type="radio" name="length" value="Not sure yet" checked><span>Not sure yet</span></label>
+</div>
+</fieldset>
+<div class="field" style="margin-top:22px">
+<label for="in-mediator">Preferred mediator <span class="opt">(optional)</span></label>
+<select id="in-mediator" name="mediator" data-label="Preferred mediator">
+<option>No preference</option>
+<option>Lucie-Anne Rhodes</option>
+<option>Claudia Haisman-Green</option>
+<option>Gurprit Mattu</option>
+<option>Amy Kaur</option>
+</select>
+</div>
+</fieldset>
+
+<fieldset data-step data-section="Your details">
+<legend class="step-title">How do we reach you?</legend>
+<span class="hint">We'll only use these details to reply to this enquiry.</span>
+<div class="form-row">
+<div class="field"><label for="in-name">Your name</label><input id="in-name" name="name" type="text" autocomplete="name" required></div>
+<div class="field"><label for="in-email">Email</label><input id="in-email" name="email" type="email" autocomplete="email" required></div>
+</div>
+<div class="form-row">
+<div class="field"><label for="in-phone">Phone <span class="opt">(optional)</span></label><input id="in-phone" name="phone" type="tel" autocomplete="tel"></div>
+<div class="field"><label for="in-role">You are</label>
+<select id="in-role" name="role" data-label="Enquiring as">
+<option>A party to the dispute</option>
+<option>A solicitor or adviser for a party</option>
+<option>Someone else</option>
+</select></div>
+</div>
+<div class="field"><label for="in-notes">Anything else we should know? <span class="opt">(optional)</span></label>
+<textarea id="in-notes" name="notes" data-label="Notes" rows="4"></textarea></div>
+</fieldset>
+
+<div data-step class="js-only">
+<h2 class="step-title">Check and send</h2>
+<p class="hint">Pressing send opens an email to us with this summary in your own email app. Nothing reaches us until you press send there.</p>
+<pre class="summary" aria-live="polite"></pre>
+</div>
+
+<div class="wizard-nav">
+<button class="btn btn-secondary js-only" type="button" data-back hidden>Back</button>
+<span class="spacer"></span>
+<button class="btn btn-secondary" type="button" data-copy hidden>Copy summary</button>
+<button class="btn btn-primary" type="button" data-next hidden>Continue</button>
+<button class="btn btn-primary" type="submit" data-send>Send to Vestia</button>
+</div>
+<p class="form-status" role="status" aria-live="polite"></p>
+</form>
+</div>
+<p class="note center" style="margin-top:22px">Prefer to talk first? <a href="~/book-a-call">Book a free 15-minute call</a> or ring <a href="tel:+443301335199">0330 133 5199</a>.</p>
+</div>
+</div>
+</section>

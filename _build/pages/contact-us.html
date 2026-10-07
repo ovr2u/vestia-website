@@ -1,0 +1,49 @@
+---
+title: Contact Vestia Mediation | 0330 133 5199
+description: Get in touch with Vestia Mediation by phone on 0330 133 5199, by email or with our contact form. Mediations across the UK, internationally and online.
+nav: contact
+h1: Get in touch
+crumb: Contact Us
+eyebrow: Contact us
+lead: If you have any questions, or would like to book a mediation, reach us by phone, email or the form on this page. However stuck things feel, a conversation is a good place to start.
+priority: 0.8
+---
+<section class="section">
+<div class="wrap split-2">
+<div>
+<h2 style="font-size:var(--step-2)">Contact details</h2>
+<div class="rule"></div>
+<dl class="contact-list">
+<dt>Phone</dt><dd><a href="tel:+443301335199">0330 133 5199</a></dd>
+<dt>Email</dt><dd><a href="mailto:{{EMAIL}}">{{EMAIL}}</a></dd>
+<dt>LinkedIn</dt><dd><a href="https://www.linkedin.com/company/vestiamediation" rel="noopener">Vestia Mediation</a></dd>
+<dt>Where</dt><dd>Mediations offered in the UK, internationally, and online</dd>
+</dl>
+<h2 style="font-size:var(--step-2);margin-top:36px">Or go straight to</h2>
+<div class="rule"></div>
+<ul class="check-list">
+<li><a href="~/book-a-call">Book a free 15-minute call</a> with a mediator</li>
+<li><a href="~/start-your-mediation">Start your mediation</a>: tell us about the dispute in six questions</li>
+<li><a href="~/contact-8">Booking request form</a> to request a specific service</li>
+<li><a href="~/pre-mediation-form">Pre-mediation information form</a> if your mediation is already booked</li>
+</ul>
+</div>
+<div class="form-panel">
+<h2 style="font-size:var(--step-2)">Send us a message</h2>
+<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto:.
+     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
+     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute. -->
+<form class="form" action="mailto:{{EMAIL}}?subject=Website%20enquiry" method="post" enctype="text/plain"
+ data-mailto="{{EMAIL}}" data-subject="Website enquiry from {first} {last}">
+<div class="form-row">
+<div class="field"><label for="ct-first">First name</label><input id="ct-first" name="first" type="text" autocomplete="given-name" required></div>
+<div class="field"><label for="ct-last">Last name</label><input id="ct-last" name="last" type="text" autocomplete="family-name" required></div>
+</div>
+<div class="field"><label for="ct-email">Email</label><input id="ct-email" name="email" type="email" autocomplete="email" required></div>
+<div class="field"><label for="ct-msg">Message</label><textarea id="ct-msg" name="message" rows="6" required></textarea></div>
+<button class="btn btn-primary" type="submit">Send</button>
+<p class="form-status" role="status" aria-live="polite"></p>
+</form>
+</div>
+</div>
+</section>

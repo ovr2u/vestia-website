@@ -146,6 +146,7 @@
     } else {
       setStatus(form, statusMessage('Your email app should now open with everything filled in. Just press send.', email), 'ok');
     }
+    form.dispatchEvent(new CustomEvent('vestia:mailto', { bubbles: true, detail: href }));
     window.location.href = href;
   }
 
@@ -213,7 +214,7 @@
     next.addEventListener('click', function () {
       if (!stepValid(steps[current])) {
         var first = steps[current].querySelector('input:invalid, select:invalid, textarea:invalid');
-        if (first) { intake.removeAttribute('novalidate'); first.reportValidity(); intake.setAttribute('novalidate', ''); }
+        if (first && first.type !== 'radio') { intake.removeAttribute('novalidate'); first.reportValidity(); intake.setAttribute('novalidate', ''); }
         else {
           var m = doc.createDocumentFragment();
           m.appendChild(doc.createTextNode('Please choose an option to continue.'));

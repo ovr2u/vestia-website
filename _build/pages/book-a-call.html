@@ -1,0 +1,85 @@
+---
+title: Book a Free 15-Minute Call with a Mediator | Vestia Mediation
+description: Book a free, no-obligation 15-minute call with a Vestia mediator by phone or online. Tell us when suits you and we'll confirm a time by email.
+nav: none
+h1: Book a free 15-minute call
+crumb: Book a free call
+eyebrow: Free consultation
+lead: Talk to a mediator, not a salesperson. Tell us a little about the dispute and we'll give you an honest view on whether mediation is the right route.
+booking: no
+priority: 0.9
+---
+<section class="section">
+<div class="wrap split-2">
+<div>
+<!-- =====================================================================
+     SCHEDULER SLOT
+     To switch to Calendly (or Cal.com, Acuity, Microsoft Bookings):
+       1. Delete everything between "SCHEDULER START" and "SCHEDULER END" below.
+       2. Paste your provider's inline embed code in its place. For Calendly it looks like:
+          <div class="calendly-inline-widget" data-url="https://calendly.com/YOUR-LINK/15min" style="min-width:320px;height:720px"></div>
+          <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+       3. Save, then run: python3 _build/build.py  (or make the same edit in book-a-call.html).
+     Note: an embedded scheduler sets its own cookies, so mention it in the Privacy Policy.
+     ===================================================================== -->
+<div id="scheduler" class="scheduler-slot">
+<!-- SCHEDULER START -->
+<div class="form-panel">
+<h2 style="font-size:var(--step-2)">When suits you?</h2>
+<p class="muted">Pick a day and a rough window and we'll confirm an exact time by email, usually within one working day.</p>
+<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto:.
+     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
+     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute. -->
+<form class="form" action="mailto:{{EMAIL}}?subject=Free%2015-minute%20call%20request" method="post" enctype="text/plain"
+ data-mailto="{{EMAIL}}" data-subject="Free 15-minute call request: {name}" data-intro="FREE 15-MINUTE CALL REQUEST">
+<div class="form-row">
+<div class="field"><label for="bk-name">Your name</label><input id="bk-name" name="name" type="text" autocomplete="name" required></div>
+<div class="field"><label for="bk-email">Email</label><input id="bk-email" name="email" type="email" autocomplete="email" required></div>
+</div>
+<div class="form-row">
+<div class="field"><label for="bk-phone">Phone <span class="opt">(optional)</span></label><input id="bk-phone" name="phone" type="tel" autocomplete="tel"></div>
+<div class="field"><label for="bk-date">Preferred day <span class="opt">(optional)</span></label><input id="bk-date" name="day" type="date"></div>
+</div>
+<fieldset>
+<legend>Preferred time <span class="opt">(optional)</span></legend>
+<div class="choices">
+<label class="choice"><input type="radio" name="window" value="Morning (9 to 12)" data-label="Preferred time"><span>Morning (9 to 12)</span></label>
+<label class="choice"><input type="radio" name="window" value="Lunchtime (12 to 2)"><span>Lunchtime (12 to 2)</span></label>
+<label class="choice"><input type="radio" name="window" value="Afternoon (2 to 5)"><span>Afternoon (2 to 5)</span></label>
+<label class="choice"><input type="radio" name="window" value="Any time"><span>Any time</span></label>
+</div>
+</fieldset>
+<fieldset>
+<legend>How would you like to talk?</legend>
+<div class="choices">
+<label class="choice"><input type="radio" name="how" value="Telephone call" data-label="Call type" checked><span>Telephone call</span></label>
+<label class="choice"><input type="radio" name="how" value="Online meeting"><span>Online meeting</span></label>
+</div>
+</fieldset>
+<div class="field"><label for="bk-about">What's the dispute about? <span class="opt">(optional, a sentence is plenty)</span></label>
+<textarea id="bk-about" name="about" rows="3" data-label="About the dispute"></textarea></div>
+<button class="btn btn-primary" type="submit">Request my call</button>
+<p class="form-status" role="status" aria-live="polite"></p>
+</form>
+</div>
+<!-- SCHEDULER END -->
+</div>
+</div>
+<div>
+<h2 style="font-size:var(--step-2)">What the call covers</h2>
+<div class="rule"></div>
+<ul class="check-list">
+<li>A personalised consultation with a mediator about your specific needs.</li>
+<li>Any questions you have, for example about how the mediation process works.</li>
+<li>Whether Vestia Mediation is right for you, and if so which format and fee would apply.</li>
+</ul>
+<p>The call is free and there's no obligation to book anything afterwards. It takes place by telephone or online meeting.</p>
+<p class="note">To cancel or reschedule a call, please contact us at least 24 hours in advance.</p>
+<div class="card" style="height:auto;margin-top:28px">
+<h3>Rather pick up the phone?</h3>
+<p>Call <a href="tel:+443301335199">0330 133 5199</a> or email <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>.</p>
+<p>Already know you want to mediate? <a href="~/start-your-mediation">Start your mediation</a> instead.</p>
+</div>
+</div>
+</div>
+</section>

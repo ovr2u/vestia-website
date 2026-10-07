@@ -1,0 +1,67 @@
+---
+title: Booking Request Form | Vestia Mediation
+description: Request a mediation, consultation, facilitation or training session with Vestia Mediation and we'll contact you shortly to discuss your requirements.
+nav: none
+h1: Booking request form
+crumb: Booking request form
+eyebrow: Book a service
+lead: If you would like to request one of our services, please complete the form below and we will contact you shortly to discuss your requirements in more detail.
+priority: 0.5
+---
+<section class="section">
+<div class="wrap split-2">
+<div class="form-panel">
+<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto:.
+     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
+     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute. -->
+<form class="form" action="mailto:{{EMAIL}}?subject=Booking%20request" method="post" enctype="text/plain"
+ data-mailto="{{EMAIL}}" data-subject="Booking request: {service}" data-intro="BOOKING REQUEST">
+<div class="form-row">
+<div class="field"><label for="br-first">First name</label><input id="br-first" name="first" type="text" autocomplete="given-name" required></div>
+<div class="field"><label for="br-last">Last name</label><input id="br-last" name="last" type="text" autocomplete="family-name" required></div>
+</div>
+<div class="form-row">
+<div class="field"><label for="br-email">Email</label><input id="br-email" name="email" type="email" autocomplete="email" required></div>
+<div class="field"><label for="br-phone">Phone</label><input id="br-phone" name="phone" type="tel" autocomplete="tel" required></div>
+</div>
+<div class="field"><label for="br-service">Service required</label>
+<select id="br-service" name="service" required>
+<option value="">Please select one</option>
+<option>Mediation consultation (free 15-minute call)</option>
+<option>Mediation of £20k to £100k dispute</option>
+<option>Mediation of £100k to £1 million dispute</option>
+<option>Mediation of all other disputes</option>
+<option>Facilitating projects or transactions</option>
+<option>Mediation training</option>
+</select></div>
+<fieldset>
+<legend>If relevant, please select preferred mediator(s) <span class="opt">(optional)</span></legend>
+<div class="choices">
+<label class="choice"><input type="checkbox" name="mediators" value="Lucie-Anne Rhodes" data-label="Preferred mediator(s)"><span>Lucie-Anne Rhodes</span></label>
+<label class="choice"><input type="checkbox" name="mediators" value="Claudia Haisman-Green"><span>Claudia Haisman-Green</span></label>
+<label class="choice"><input type="checkbox" name="mediators" value="Gurprit Mattu"><span>Gurprit Mattu</span></label>
+<label class="choice"><input type="checkbox" name="mediators" value="Amy Kaur"><span>Amy Kaur</span></label>
+<label class="choice"><input type="checkbox" name="mediators" value="No preference"><span>No preference</span></label>
+</div>
+</fieldset>
+<div class="field"><label for="br-details">Background / details</label>
+<span class="hint" id="br-details-hint">Please provide brief details (e.g. for a mediation it would help to understand the nature of dispute, brief background, your role, value of dispute, key dates, etc.)</span>
+<textarea id="br-details" name="details" rows="5" aria-describedby="br-details-hint" data-label="Background / details" required></textarea></div>
+<div class="field"><label for="br-prefs">Preferences and needs <span class="opt">(optional)</span></label>
+<span class="hint" id="br-prefs-hint">Please give details of preferred format for the requested service (e.g. in-person / online / hybrid / phone call), known dates or times to avoid, accessibility needs, etc.</span>
+<textarea id="br-prefs" name="prefs" rows="4" aria-describedby="br-prefs-hint" data-label="Preferences and needs"></textarea></div>
+<label class="check" for="br-consent"><input id="br-consent" name="consent" type="checkbox" data-label="Agrees to processing and storage of personal data" required><span>I agree to the processing and storage of personal data as necessary to provide the requested services (see our <a href="~/privacy">Privacy Policy</a>).</span></label>
+<label class="check" for="br-marketing"><input id="br-marketing" name="marketing" type="checkbox" data-label="Happy to be contacted in future about Vestia's services"><span>I am happy to be contacted by Vestia in the future with information in connection with their business and services.</span></label>
+<button class="btn btn-primary" type="submit" style="margin-top:8px">Send</button>
+<p class="form-status" role="status" aria-live="polite"></p>
+</form>
+</div>
+<div>
+<h2 style="font-size:var(--step-2)">Other ways to book</h2>
+<div class="rule"></div>
+<p>Alternatively, you can email details to <a href="mailto:bookings@vestiamediation.co.uk">bookings@vestiamediation.co.uk</a> or call us on <a href="tel:+443301335199">0330 133 5199</a>.</p>
+<p>Not sure which service you need? <a href="~/book-a-call">Book a free 15-minute call</a> and a mediator will talk it through with you.</p>
+<p class="note">Our fees are set out on the <a href="~/fees">fees page</a>, and full terms are in our <a href="~/mediation-agreement">Mediation Agreement</a>.</p>
+</div>
+</div>
+</section>

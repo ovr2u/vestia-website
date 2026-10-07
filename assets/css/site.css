@@ -366,10 +366,9 @@ legend{padding:0}
 .wizard-nav .spacer{flex:1}
 .js .wizard [data-step]:not(.is-current){display:none}
 .summary{background:var(--cream);border:1px solid var(--line);padding:18px 20px;font-size:.9688rem;white-space:pre-wrap;line-height:1.7;margin:0 0 6px;font-family:inherit}
-.no-js-only{display:block}
-.js .no-js-only{display:none}
-.js-only{display:none}
-.js .js-only{display:block}
+.js .no-js-only{display:none!important}
+html:not(.js) .js-only{display:none!important}
+[hidden]{display:none!important}
 
 /* Compact booking block (end of every page) */
 .book-block{background:var(--ink);color:var(--cream);padding:clamp(36px,5vw,56px) 0}
