@@ -1,7 +1,8 @@
 # Vestia Mediation
-# Every page also carries a temporary "noindex" tag until the domain moves (see DEPLOY.md).
+# Until go-live every page also carries a temporary "noindex" tag (see DEPLOY.md).
 User-agent: *
 Allow: /
 Disallow: /_build/
+Disallow: /Vestia%20website%20rebuild/
 
 Sitemap: https://www.vestiamediation.co.uk/sitemap.xml
