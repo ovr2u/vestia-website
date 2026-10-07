@@ -1,0 +1,13 @@
+{
+  "name": "Vestia Mediation",
+  "short_name": "Vestia",
+  "description": "Property, commercial and civil mediation. From Conflict to Clarity.",
+  "start_url": "./",
+  "display": "browser",
+  "background_color": "#F9F6F2",
+  "theme_color": "#F9F6F2",
+  "icons": [
+    { "src": "assets/img/brand/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/img/brand/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
