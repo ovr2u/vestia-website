@@ -79,7 +79,7 @@ footer{margin-top:22pt;padding-top:8pt;border-top:0.75pt solid #D9C7B3;text-alig
 <table>
 <thead><tr><th>Dispute value</th><th>Half day (4 hours)</th><th>Full day (8 hours)</th><th>Additional hours</th></tr></thead>
 <tbody>
-<tr><th>Less than £20,000</th><td colspan="2">Negotiable (abridged mediation available, typically from £600 + VAT per party)</td><td>Please contact us to discuss pricing</td></tr>
+<tr><th>Less than £20,000</th><td colspan="2">Usually £600 + VAT per party for a half day. Abridged mediation is also an option, with pricing open for discussion.</td><td>Please contact us to discuss pricing</td></tr>
 <tr><th>£20,000 to £100,000</th><td>£800 + VAT<span class="per">per party</span></td><td>£1,200 + VAT<span class="per">per party</span></td><td>£150 + VAT<span class="per">per hour per party</span></td></tr>
 <tr><th>£100,000 to £1 million</th><td>£1,000 + VAT<span class="per">per party</span></td><td>£1,500 + VAT<span class="per">per party</span></td><td>£175 + VAT<span class="per">per hour per party</span></td></tr>
 <tr><th>More than £1 million, or non-monetary disputes</th><td colspan="2">Price negotiable (multi-day mediation available; bespoke options can be tailored to your needs)</td><td>Please contact us to discuss pricing</td></tr>

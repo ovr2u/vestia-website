@@ -45,7 +45,6 @@ BADGES = {
 # Mediator data. Bios, specialisms and accreditations are word for word from the previous site.
 MEDIATORS = {
     "lucie": {
-        "author_bio": "Lucie-Anne Rhodes founded Vestia Mediation after more than fourteen years in property litigation and dispute resolution, latterly as Head of Legal for the UK's largest property management and real estate services provider.",
         "name": "Lucie-Anne Rhodes",
         "img": "lucie-anne-rhodes",
         "path": "lucie-annerhodes",
@@ -72,7 +71,6 @@ MEDIATORS = {
         "knows": ["Property disputes", "Landlord and tenant disputes", "Commercial litigation", "Civil litigation"],
     },
     "claudia": {
-        "author_bio": 'Claudia Haisman-Green is a Consultant Mediator at Vestia. She spent more than two decades as a Commercial Real Estate solicitor, much of it in senior roles at leading international firms.',
         "name": "Claudia Haisman-Green",
         "img": "claudia-haisman-green",
         "path": "claudiahaisman-green",
@@ -100,7 +98,6 @@ MEDIATORS = {
         "knows": ["Property disputes", "Commercial real estate", "Partnership disputes", "Corporate disputes", "Negotiation training"],
     },
     "gurprit": {
-        "author_bio": 'Gurprit Mattu is a Consultant Mediator at Vestia and a dual-qualified barrister in England and Wales and the British Virgin Islands, specialising in high-value commercial and private disputes.',
         "name": "Gurprit Mattu",
         "img": "gurprit-mattu",
         "path": "gurpritmattu",
@@ -129,7 +126,6 @@ MEDIATORS = {
         "knows": ["Commercial disputes", "Shareholder and partnership disputes", "Probate disputes", "Employment disputes", "Restorative justice"],
     },
     "amy": {
-        "author_bio": 'Amy Kaur is an Associate Mediator at Vestia, focusing on employment, community and private family mediation.',
         "name": "Amy Kaur",
         "img": "amy-kaur",
         "path": "amykaur",
@@ -299,7 +295,7 @@ FEE_TABLE = """<table class="fee-table">
 <caption>Mediation fees 2026: Specialist Mediator rates</caption>
 <thead><tr><th scope="col">Dispute value</th><th scope="col">Half day (4 hours)</th><th scope="col">Full day (8 hours)</th><th scope="col">Additional hours</th></tr></thead>
 <tbody>
-<tr><th scope="row">Less than £20,000</th><td colspan="2" data-label="Half or full day">Negotiable (abridged mediation available, typically from £600 + VAT per party)</td><td data-label="Additional hours">Please contact us to discuss pricing</td></tr>
+<tr><th scope="row">Less than £20,000</th><td colspan="2" data-label="Half or full day">Usually £600 + VAT per party for a half day. Abridged mediation is also an option, with pricing open for discussion.</td><td data-label="Additional hours">Please contact us to discuss pricing</td></tr>
 <tr><th scope="row">£20,000 to £100,000</th><td class="price" data-label="Half day">£800 + VAT<span class="per">per party</span></td><td class="price" data-label="Full day">£1,200 + VAT<span class="per">per party</span></td><td class="price" data-label="Additional hours">£150 + VAT<span class="per">per hour per party</span></td></tr>
 <tr><th scope="row">£100,000 to £1 million</th><td class="price" data-label="Half day">£1,000 + VAT<span class="per">per party</span></td><td class="price" data-label="Full day">£1,500 + VAT<span class="per">per party</span></td><td class="price" data-label="Additional hours">£175 + VAT<span class="per">per hour per party</span></td></tr>
 <tr><th scope="row">More than £1 million, or non-monetary disputes</th><td colspan="2" data-label="Half or full day">Price negotiable (multi-day mediation available; bespoke options can be tailored to your needs)</td><td data-label="Additional hours">Please contact us to discuss pricing</td></tr>
@@ -331,11 +327,10 @@ def post_list(r, posts, limit=None, exclude=None):
     for p in posts:
         if exclude and p["path"] == exclude:
             continue
-        m = MEDIATORS[p["author"]]
         items.append(
             f'<li><a href="{r}{p["path"]}"><span class="post-title">{esc(p["h1"])}</span>'
             f'<span class="post-sum">{esc(p["summary"])}</span>'
-            f'<span class="post-meta">{esc(m["name"])} · {p["minutes"]} min read</span>'
+            f'<span class="post-meta">{nice_date(p["published"])} · {p["minutes"]} min read</span>'
             f'<span class="post-for">{esc(p["audience"])}</span></a></li>'
         )
         if limit and len(items) >= limit:
@@ -533,7 +528,7 @@ def build():
     for path, meta, body in fragments:
         if meta.get("type") == "article":
             posts.append({"path": path, "h1": meta["h1"], "summary": meta["summary"], "audience": meta["audience"],
-                          "author": meta["author"], "published": meta["published"], "minutes": read_minutes(body),
+                          "published": meta["published"], "minutes": read_minutes(body),
                           "order": int(meta.get("order", 99))})
     posts.sort(key=lambda p: p["order"])
 
@@ -601,7 +596,6 @@ def build():
             )
         elif ptype == "article":
             og_type = "article"
-            m = MEDIATORS[meta["author"]]
             mins = read_minutes(body)
             schema.append({
                 "@type": "BlogPosting",
@@ -609,7 +603,7 @@ def build():
                 "description": meta["description"],
                 "datePublished": meta["published"],
                 "dateModified": meta.get("modified", meta["published"]),
-                "author": {"@type": "Person", "@id": url_for(m["path"]) + "#person", "name": m["name"], "url": url_for(m["path"])},
+                "author": {"@id": ORG_ID, "@type": "ProfessionalService", "name": "Vestia Mediation", "url": SITE_URL + "/"},
                 "publisher": {"@id": ORG_ID, "@type": "ProfessionalService", "name": "Vestia Mediation"},
                 "mainEntityOfPage": url_for(path),
                 "image": og_image,
@@ -618,9 +612,7 @@ def build():
             })
             updated = (f' · Updated {nice_date(meta["modified"])}' if meta.get("modified") and meta["modified"] != meta["published"] else "")
             byline = (
-                f'<div class="byline"><img src="{r}assets/img/mediators/{m["img"]}-400.jpg" alt="" width="56" height="56" loading="lazy">'
-                f'<span><span class="by-name">By <a href="{r}{m["path"]}">{esc(m["name"])}</a>, {esc(m["role"])}</span>'
-                f'<span class="by-meta">Published {nice_date(meta["published"])}{updated} · {mins} min read</span></span></div>'
+                f'<div class="byline"><span class="by-meta">Published {nice_date(meta["published"])}{updated} · {mins} min read</span></div>'
             )
             related = post_list(r, posts, limit=3, exclude=path)
             main = (
@@ -635,8 +627,9 @@ def build():
                 f'<p>A free 15-minute call with a mediator is the quickest way to find out whether mediation suits your dispute.</p>'
                 f'<a class="btn btn-primary" href="{r}book-a-call">Book a free 15-minute call</a>'
                 f'<a class="btn btn-secondary" href="{r}start-your-mediation">Start your mediation</a></div>'
-                f'<div class="card" style="margin-top:16px;height:auto"><h2>About the author</h2><p>{esc(m["author_bio"])}</p>'
-                f'<a class="text-link arrow" href="{r}{m["path"]}">Read profile</a></div></aside></div></div>'
+                f'<div class="card" style="margin-top:16px;height:auto"><h2>Our mediators</h2><p>Accredited mediators with over 50 years of '
+                f'combined litigation experience, including specialists in property disputes.</p>'
+                f'<a class="text-link arrow" href="{r}our-mediators">Meet the team</a></div></aside></div></div>'
                 f'<div class="section section--paper"><div class="wrap"><h2>More from Insights</h2>{related}</div></div>'
             )
         elif meta.get("h1"):
