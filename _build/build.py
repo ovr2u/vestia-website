@@ -24,7 +24,7 @@ SITE_URL = "https://www.vestiamediation.co.uk"
 # PRE-LAUNCH: True adds <meta name="robots" content="noindex"> to every page so the
 # temporary preview can't compete with the live site in Google. Set to False at go-live.
 NOINDEX = True
-BUILD_DATE = "2026-10-07"
+BUILD_DATE = "2026-11-17"
 # FORMS: paste the ID from your Formspree form (the part after formspree.io/f/, e.g. "xyzabcde") to send the
 # everyday forms straight to the inbox. Leave empty to keep them opening the visitor's email app. The confidential
 # pre-mediation form never uses Formspree.
@@ -248,10 +248,10 @@ def team_strip(r):
         cards.append(
             f'<li><a class="person" href="{r}{m["path"]}">'
             + picture(r, m["img"], f'{m["name"]}, {m["role"]} at Vestia Mediation', "(max-width: 900px) 46vw, 260px")
-            + f'<span class="person-name">{esc(m["name"])}</span>'
-            f'<span class="person-role">{esc(m["role"])}</span>'
-            f'<span class="person-spec">{esc(m["strip"])}</span>'
-            f'<span class="person-more" aria-hidden="true">View profile</span></a></li>'
+            + f' <span class="person-name">{esc(m["name"])}</span>'
+            f' <span class="person-role">{esc(m["role"])}</span>'
+            f' <span class="person-spec">{esc(m["strip"])}</span>'
+            f' <span class="person-more" aria-hidden="true">View profile</span></a></li>'
         )
     return '<ul class="grid-4" style="list-style:none;padding:0;margin:0">' + "".join(cards) + "</ul>"
 
@@ -300,19 +300,19 @@ FEE_TABLE = """<table class="fee-table">
 <thead><tr><th scope="col">Dispute value</th><th scope="col">Half day (4 hours)</th><th scope="col">Full day (8 hours)</th><th scope="col">Additional hours</th></tr></thead>
 <tbody>
 <tr><th scope="row">Less than £20,000</th><td colspan="2" data-label="Half or full day">Usually £600 + VAT per party for a half day. Abridged mediation is also an option, with pricing open for discussion.</td><td data-label="Additional hours">Please contact us to discuss pricing</td></tr>
-<tr><th scope="row">£20,000 to £100,000</th><td class="price" data-label="Half day">£800 + VAT<span class="per">per party</span></td><td class="price" data-label="Full day">£1,200 + VAT<span class="per">per party</span></td><td class="price" data-label="Additional hours">£150 + VAT<span class="per">per hour per party</span></td></tr>
-<tr><th scope="row">£100,000 to £1 million</th><td class="price" data-label="Half day">£1,000 + VAT<span class="per">per party</span></td><td class="price" data-label="Full day">£1,500 + VAT<span class="per">per party</span></td><td class="price" data-label="Additional hours">£175 + VAT<span class="per">per hour per party</span></td></tr>
+<tr><th scope="row">£20,000 to £100,000</th><td class="price" data-label="Half day">£800 + VAT <span class="per">per party</span></td><td class="price" data-label="Full day">£1,200 + VAT <span class="per">per party</span></td><td class="price" data-label="Additional hours">£150 + VAT <span class="per">per hour per party</span></td></tr>
+<tr><th scope="row">£100,000 to £1 million</th><td class="price" data-label="Half day">£1,000 + VAT <span class="per">per party</span></td><td class="price" data-label="Full day">£1,500 + VAT <span class="per">per party</span></td><td class="price" data-label="Additional hours">£175 + VAT <span class="per">per hour per party</span></td></tr>
 <tr><th scope="row">More than £1 million, or non-monetary disputes</th><td colspan="2" data-label="Half or full day">Price negotiable (multi-day mediation available; bespoke options can be tailored to your needs)</td><td data-label="Additional hours">Please contact us to discuss pricing</td></tr>
 </tbody>
 </table>"""
 
 VALUES = [
-    ("V", "Voice", "Ensuring every party is properly heard, so all perspectives are recognised and respected."),
-    ("E", "Equity", "Maintaining a fair and balanced process, even where power or confidence is unequal."),
-    ("S", "Safety", "Providing a calm, confidential environment where parties can speak openly without fear."),
-    ("T", "Trust", "Building confidence in the process and the mediator, so parties feel secure reaching agreement."),
-    ("I", "Integrity", "Upholding the highest professional and ethical standards, so parties can rely on the process and the mediator with complete confidence."),
-    ("A", "Accountability", "Taking responsibility for delivering a mediation process that encourages collaboration."),
+    ("V", "Voice", "Every party is properly heard, so all perspectives are recognised and respected."),
+    ("E", "Equity", "The process is fair and balanced, even where power or confidence is unequal."),
+    ("S", "Safety", "The environment is calm and confidential, so parties can speak openly without fear."),
+    ("T", "Trust", "Parties have confidence in the process and the mediator, so they feel secure reaching agreement."),
+    ("I", "Integrity", "We uphold the highest professional and ethical standards, so parties can rely on the process and the mediator with complete confidence."),
+    ("A", "Accountability", "We take responsibility for delivering a mediation process that encourages collaboration."),
 ]
 
 
@@ -333,9 +333,9 @@ def post_list(r, posts, limit=None, exclude=None):
             continue
         items.append(
             f'<li><a href="{r}{p["path"]}"><span class="post-title">{esc(p["h1"])}</span>'
-            f'<span class="post-sum">{esc(p["summary"])}</span>'
-            f'<span class="post-meta">{nice_date(p["published"])} · {p["minutes"]} min read</span>'
-            f'<span class="post-for">{esc(p["audience"])}</span></a></li>'
+            f' <span class="post-sum">{esc(p["summary"])}</span>'
+            f' <span class="post-meta">Vestia Mediation · {nice_date(p["published"])} · {p["minutes"]} min read</span>'
+            f' <span class="post-for">{esc(p["audience"])}</span></a></li>'
         )
         if limit and len(items) >= limit:
             break
@@ -369,7 +369,7 @@ def header(r, active, path):
 <div class="wrap wrap-wide header-inner">
 <a class="brand" href="{home}" aria-label="Vestia Mediation home page">
 <picture><source type="image/webp" srcset="{r}assets/img/brand/mark-96.webp"><img src="{r}assets/img/brand/mark-96.png" alt="" width="34" height="40"></picture>
-<span class="brand-name" aria-hidden="true"><span>Vestia</span><span>MEDIATION</span></span>
+<span class="brand-name" aria-hidden="true"><span>Vestia</span> <span>MEDIATION</span></span>
 </a>
 <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">{MENU_ICON}Menu</button>
 <nav id="primary-nav" class="primary-nav" aria-label="Main">
@@ -415,7 +415,7 @@ def footer(r):
 </div>
 <div><h2>Mediation</h2>{ul([("our-services", "Our Services"), ("property-specialisms", "Property Specialisms"), ("other-specialisms", "Other Specialisms"), ("fees", "Fees"), ("for-solicitors", "For Solicitors")])}</div>
 <div><h2>About</h2>{ul([("about-us", "About Us"), ("our-mediators", "Our Mediators"), ("insights", "Insights"), ("faqs", "FAQs"), ("contact-us", "Contact Us")])}</div>
-<div><h2>Get started</h2>{ul([("book-a-call", "Book a free 15-minute call"), ("start-your-mediation", "Start your mediation"), ("contact-8", "Booking request form"), ("pre-mediation-form", "Pre-mediation information form")])}
+<div><h2>Get started</h2>{ul([("book-a-call", "Book a free 15-minute call"), ("start-your-mediation", "Start your mediation"), ("pre-mediation-form", "Pre-mediation information form")])}
 <h2 style="margin-top:22px">Documents</h2>{ul([("mediation-agreement", "Mediation Agreement"), ("complaints-policy", "Complaints Policy"), ("accessibility", "Accessibility Statement"), ("privacy", "Privacy Policy")])}</div>
 </div>
 <p class="footer-trust">{TRUST_LINE}</p>
@@ -641,7 +641,9 @@ def build():
             })
             updated = (f' · Updated {nice_date(meta["modified"])}' if meta.get("modified") and meta["modified"] != meta["published"] else "")
             byline = (
-                f'<div class="byline"><span class="by-meta">Published {nice_date(meta["published"])}{updated} · {mins} min read</span></div>'
+                f'<div class="byline"><img class="by-mark" src="{r}assets/img/brand/mark-96.png" alt="" width="34" height="40">'
+                f'<span><span class="by-name">Vestia Mediation</span> '
+                f'<span class="by-meta">Published {nice_date(meta["published"])}{updated} · {mins} min read</span></span></div>'
             )
             related = post_list(r, posts, limit=3, exclude=path)
             main = (
@@ -687,7 +689,7 @@ def build():
 
         title = meta["title"]
         desc = meta["description"]
-        canonical = url_for(path)
+        canonical = url_for(meta.get("canonical", path))
         robots = ('<!-- PRE-LAUNCH: keeps the temporary preview out of Google. Remove at go-live (see DEPLOY.md). -->\n'
                   '<meta name="robots" content="noindex">\n') if NOINDEX or ptype == "404" else ""
         ld = ""

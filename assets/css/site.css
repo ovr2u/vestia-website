@@ -317,7 +317,7 @@ hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
   .fee-table td{border:0;padding:6px 18px 6px calc(18px + 9em);position:relative}
   .fee-table td::before{content:attr(data-label);position:absolute;left:18px;top:8px;width:8.5em;font-size:.8125rem;letter-spacing:.04em;color:var(--muted)}
   .fee-table td.price{white-space:normal}
-  .fee-table .per{display:inline;margin-left:4px}
+  .fee-table .per{display:inline}
 }
 .fee-notes{margin-top:28px}
 
@@ -457,3 +457,4 @@ form.is-sent [data-step],form.is-sent .wizard-nav,form.is-sent .wizard-progress,
 form[data-formspree] .if-mailto,form[data-mailto] .if-formspree{display:none}
 button[disabled]{opacity:.6;cursor:progress}
 .form-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px}
+.byline img.by-mark{width:34px;height:40px;border-radius:0;object-fit:contain;background:none}
