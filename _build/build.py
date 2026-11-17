@@ -371,7 +371,7 @@ def header(r, active, path):
 <picture><source type="image/webp" srcset="{r}assets/img/brand/mark-96.webp"><img src="{r}assets/img/brand/mark-96.png" alt="" width="34" height="40"></picture>
 <span class="brand-name" aria-hidden="true"><span>Vestia</span> <span>MEDIATION</span></span>
 </a>
-<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">{MENU_ICON}Menu</button>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">{MENU_ICON}<span class="menu-label">Menu</span></button>
 <nav id="primary-nav" class="primary-nav" aria-label="Main">
 <ul class="nav-list">{"".join(items)}</ul>
 <div class="header-cta"><a class="btn btn-primary btn-small" href="{r}book-a-call">Book a free 15-minute call</a></div>

@@ -458,3 +458,6 @@ form[data-formspree] .if-mailto,form[data-mailto] .if-formspree{display:none}
 button[disabled]{opacity:.6;cursor:progress}
 .form-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px}
 .byline img.by-mark{width:34px;height:40px;border-radius:0;object-fit:contain;background:none}
+.menu-backdrop{display:none;position:fixed;inset:0;z-index:40;background:rgba(58,58,58,.3)}
+@media (max-width:1200px){.menu-open .menu-backdrop{display:block}html.menu-open{overflow:hidden}}
+.menu-toggle,.sub-toggle{-webkit-tap-highlight-color:transparent}

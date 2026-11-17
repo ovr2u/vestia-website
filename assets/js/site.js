@@ -10,11 +10,22 @@
   /* ---------- 1. Navigation ---------- */
   var menuBtn = doc.querySelector('.menu-toggle');
   var nav = doc.getElementById('primary-nav');
+  function setMenu(open, returnFocus) {
+    nav.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var label = menuBtn.querySelector('.menu-label');
+    if (label) label.textContent = open ? 'Close' : 'Menu';
+    doc.documentElement.classList.toggle('menu-open', open);
+    if (!open && returnFocus) menuBtn.focus();
+  }
   if (menuBtn && nav) {
-    menuBtn.addEventListener('click', function () {
-      var open = nav.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
+    // Tapping the dimmed page behind the open mobile menu closes it.
+    var backdrop = doc.createElement('div');
+    backdrop.className = 'menu-backdrop';
+    backdrop.setAttribute('aria-hidden', 'true');
+    doc.body.appendChild(backdrop);
+    backdrop.addEventListener('click', function () { setMenu(false); });
+    menuBtn.addEventListener('click', function () { setMenu(!nav.classList.contains('open')); });
   }
   doc.querySelectorAll('.sub-toggle').forEach(function (btn) {
     var sub = doc.getElementById(btn.getAttribute('aria-controls'));
@@ -25,6 +36,7 @@
   });
   doc.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
+    if (nav && nav.classList.contains('open') && !doc.querySelector('.subnav.open')) { setMenu(false, true); return; }
     doc.querySelectorAll('.subnav.open').forEach(function (sub) {
       sub.classList.remove('open');
       var t = doc.querySelector('[aria-controls="' + sub.id + '"]');
