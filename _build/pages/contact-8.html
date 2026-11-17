@@ -11,11 +11,10 @@ priority: 0.5
 <section class="section">
 <div class="wrap split-2">
 <div class="form-panel">
-<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto:.
-     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
-     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute. -->
+<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
+     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
 <form class="form" action="mailto:{{EMAIL}}?subject=Booking%20request" method="post" enctype="text/plain"
- data-mailto="{{EMAIL}}" data-subject="Booking request: {service}" data-intro="BOOKING REQUEST">
+ data-mailto="{{EMAIL}}" data-form-name="Booking request form" data-success="Thank you. We've received your booking request and will contact you shortly to discuss your requirements." data-subject="Booking request: {service}" data-intro="BOOKING REQUEST">
 <div class="form-row">
 <div class="field"><label for="br-first">First name</label><input id="br-first" name="first" type="text" autocomplete="given-name" required></div>
 <div class="field"><label for="br-last">Last name</label><input id="br-last" name="last" type="text" autocomplete="family-name" required></div>

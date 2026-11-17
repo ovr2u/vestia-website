@@ -25,6 +25,10 @@ SITE_URL = "https://www.vestiamediation.co.uk"
 # temporary preview can't compete with the live site in Google. Set to False at go-live.
 NOINDEX = True
 BUILD_DATE = "2026-10-07"
+# FORMS: paste the ID from your Formspree form (the part after formspree.io/f/, e.g. "xyzabcde") to send the
+# everyday forms straight to the inbox. Leave empty to keep them opening the visitor's email app. The confidential
+# pre-mediation form never uses Formspree.
+FORMSPREE_FORM_ID = ""
 
 EMAIL = "enquiries@vestiamediation.co.uk"
 PHONE = "0330 133 5199"
@@ -383,12 +387,10 @@ def booking_block(r):
 <h2 id="book-block-title">Book a free 15-minute call</h2>
 <p>A short, no-obligation chat with one of our mediators, who'll tell you honestly whether mediation suits your dispute.</p>
 </div>
-<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto:.
-     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
-     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute.
-     site.js only handles forms that still have data-mailto, so the form will then submit normally. -->
+<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
+     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
 <form class="book-form" action="mailto:{EMAIL}?subject=Free%2015-minute%20call%20request" method="post" enctype="text/plain"
- data-mailto="{EMAIL}" data-subject="Free 15-minute call request: {{name}}" data-intro="Please contact me to arrange a free 15-minute call.">
+ data-mailto="{EMAIL}" data-form-name="Free 15-minute call (quick form)" data-success="Thank you. We've received your request and will be in touch to arrange your call, usually within one working day." data-subject="Free 15-minute call request: {{name}}" data-intro="Please contact me to arrange a free 15-minute call.">
 <div class="field"><label for="bb-name">Name</label><input id="bb-name" name="name" type="text" autocomplete="name" required></div>
 <div class="field"><label for="bb-email">Email</label><input id="bb-email" name="email" type="email" autocomplete="email" required></div>
 <div class="field"><label for="bb-phone">Phone <span class="opt">(optional)</span></label><input id="bb-phone" name="phone" type="tel" autocomplete="tel"></div>
@@ -513,9 +515,35 @@ def faq_schema(body):
 
 # ---------- Build ----------
 
+def use_formspree(page):
+    """Point every everyday form at Formspree. Forms marked data-keep-email stay on email."""
+    def swap(m):
+        tag = m.group(0)
+        if "data-keep-email" in tag or "data-mailto" not in tag:
+            return tag
+        name = re.search(r'data-form-name="([^"]*)"', tag)
+        tag = re.sub(r'action="mailto:[^"]*"', f'action="https://formspree.io/f/{FORMSPREE_FORM_ID}"', tag)
+        tag = tag.replace(' enctype="text/plain"', "").replace("data-mailto=", "data-formspree data-email=")
+        subject = "Website form: " + (name.group(1) if name else "enquiry")
+        return (tag + f'\n<input type="hidden" name="_subject" value="{subject}">'
+                '\n<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">')
+    return re.sub(r"<form\b[^>]*>", swap, page)
+
+
+def forms_note():
+    if FORMSPREE_FORM_ID:
+        return ("Most of our online forms send your details to us directly. The confidential pre-mediation form instead creates "
+                "a Word document on your device, or an email in your own email app, so that your answers go only to us. If that "
+                "doesn't work well for you, please email us directly or phone us instead, and we will take the details from you.")
+    return ("Our online forms currently send your details by opening your own email app with the message already written. "
+            "The confidential pre-mediation form can also create a Word document on your device for you to attach to an email. "
+            "If that doesn't work well for you, please email us directly or phone us instead, and we will take the details from you.")
+
+
 def build():
     css_v = file_hash("assets/css/site.css")
     js_v = file_hash("assets/js/site.js")
+    docx_v = file_hash("assets/js/docx.js")
 
     fragments = []
     for f in sorted(PAGES.rglob("*.html")):
@@ -565,6 +593,7 @@ def build():
         body = body.replace("{{POSTS_LATEST}}", post_list(r, posts, limit=3))
         body = body.replace("{{POSTS_ALL}}", post_list(r, posts))
         body = body.replace("{{EMAIL}}", EMAIL)
+        body = body.replace("{{FORMS_NOTE}}", forms_note())
         body = re.sub(r"\{\{BADGES:(\w+)\}\}", lambda m: badges_html(r, m.group(1)), body)
 
         og_type = "website"
@@ -702,6 +731,7 @@ def build():
 <link rel="stylesheet" href="{r}assets/css/site.css?v={css_v}">
 <script>document.documentElement.classList.add('js')</script>
 <script src="{r}assets/js/site.js?v={js_v}" defer></script>
+{(f'<script src="{r}assets/js/docx.js?v={docx_v}" defer></script>' + chr(10)) if meta.get('extra_js') == 'docx' else ''}
 {ld}</head>
 <body{(' class="' + meta['body'] + '"') if meta.get('body') else ''}>
 {header(r, meta.get('nav', ''), path)}
@@ -714,6 +744,8 @@ def build():
 </html>
 """
         page = page.replace("~/", r)
+        if FORMSPREE_FORM_ID:
+            page = use_formspree(page)
         out = ROOT / ("index.html" if path == "" else (path + ".html"))
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page, encoding="utf-8")

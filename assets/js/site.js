@@ -41,11 +41,15 @@
     });
   });
 
-  /* ---------- 2. Mailto forms ---------- */
+  /* ---------- 2. Forms ----------
+     Everyday forms carry data-formspree once a Formspree ID is set in _build/build.py, and are sent in the
+     background. Until then, and always for the confidential pre-mediation form, forms carry data-mailto and
+     open the visitor's own email app. The pre-mediation form can also produce a Word document (docx.js). */
   var MAILTO_SOFT_LIMIT = 1900; // some email apps cut off very long mailto links
+  var PHONE = '0330 133 5199';
 
-  function labelFor(el) {
-    if (el.dataset.label) return el.dataset.label;
+  function labelFor(el, fullQuestion) {
+    if (el.dataset.label && !fullQuestion) return el.dataset.label;
     var lab = el.id ? doc.querySelector('label[for="' + el.id + '"]') : null;
     if (!lab && (el.type === 'radio' || el.type === 'checkbox')) {
       var fs = el.closest('fieldset');
@@ -57,38 +61,54 @@
     return clone.textContent.replace(/\s+/g, ' ').trim();
   }
 
-  // Turns a form into a plain-text summary, grouped by data-section headings.
-  function formToText(form) {
-    var lines = [];
+  function longDate(iso) {
+    var d = new Date(iso + 'T12:00:00');
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // Reads a form into an ordered list of answers: { section, label, value, long, name }.
+  function collectAnswers(form) {
+    var out = [];
     var seen = {};
-    var section = null;
     Array.prototype.forEach.call(form.elements, function (el) {
-      if (!el.name || el.type === 'submit' || el.type === 'button' || el.dataset.skip !== undefined) return;
+      if (!el.name || el.name.charAt(0) === '_' || el.type === 'submit' || el.type === 'button' ||
+          el.type === 'hidden' || el.dataset.skip !== undefined) return;
       var sec = el.closest('[data-section]');
-      var secName = sec ? sec.dataset.section : null;
-      if (secName && secName !== section) {
-        section = secName;
-        lines.push('', secName.toUpperCase());
-      }
+      var item = { section: sec ? sec.dataset.section : '', label: labelFor(el), question: labelFor(el, true),
+        name: el.name, long: el.tagName === 'TEXTAREA' };
       if (el.type === 'radio' || el.type === 'checkbox') {
         if (seen[el.name]) return;
         seen[el.name] = true;
         var group = form.querySelectorAll('[name="' + el.name + '"]');
         if (group.length === 1 && el.type === 'checkbox') {
-          lines.push(labelFor(el) + ': ' + (el.checked ? 'Yes' : 'No'));
-          return;
+          item.value = el.checked ? 'Yes' : 'No';
+        } else {
+          item.value = Array.prototype.filter.call(group, function (g) { return g.checked; })
+            .map(function (g) { return g.value; }).join(', ');
         }
-        var picked = Array.prototype.filter.call(group, function (g) { return g.checked; })
-          .map(function (g) { return g.value; });
-        lines.push(labelFor(el) + ': ' + (picked.length ? picked.join(', ') : '(not given)'));
-        return;
-      }
-      var v = (el.value || '').trim();
-      if (el.tagName === 'TEXTAREA') {
-        lines.push(labelFor(el) + ':', v || '(not given)', '');
       } else {
-        lines.push(labelFor(el) + ': ' + (v || '(not given)'));
+        item.value = (el.value || '').trim();
+        if (el.type === 'date' && item.value) item.value = longDate(item.value);
       }
+      out.push(item);
+    });
+    return out;
+  }
+
+  // Plain-text version of the answers. With { email: true } section headings are underlined for email.
+  function formToText(form, opts) {
+    var lines = [];
+    var section = null;
+    collectAnswers(form).forEach(function (a) {
+      if (a.section && a.section !== section) {
+        section = a.section;
+        var h = a.section.toUpperCase();
+        lines.push('', h);
+        if (opts && opts.email) lines.push(new Array(h.length + 1).join('='));
+      }
+      if (a.long) lines.push(a.label + ':', a.value || '(not given)', '');
+      else lines.push(a.label + ': ' + (a.value || '(not given)'));
     });
     return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
   }
@@ -112,15 +132,22 @@
     if (msg) box.appendChild(msg);
   }
 
-  function statusMessage(text, email) {
+  // Builds a status message from text pieces and [text, href] link pairs.
+  function message(parts) {
     var frag = doc.createDocumentFragment();
-    frag.appendChild(doc.createTextNode(text + ' If nothing opens, email '));
-    var a = doc.createElement('a');
-    a.href = 'mailto:' + email;
-    a.textContent = email;
-    frag.appendChild(a);
-    frag.appendChild(doc.createTextNode(' or call 0330 133 5199.'));
+    parts.forEach(function (p) {
+      if (typeof p === 'string') { frag.appendChild(doc.createTextNode(p)); return; }
+      var a = doc.createElement(p[2] ? 'button' : 'a');
+      a.textContent = p[0];
+      if (p[2]) { a.type = 'button'; a.className = 'link-button'; a.addEventListener('click', p[2]); }
+      else a.href = p[1];
+      frag.appendChild(a);
+    });
     return frag;
+  }
+
+  function contactFallback(email) {
+    return [' If nothing opens, email ', [email, 'mailto:' + email], ' or call ' + PHONE + '.'];
   }
 
   function copyText(text) {
@@ -130,36 +157,106 @@
     return Promise.resolve(false);
   }
 
-  function sendMail(form, body) {
-    var email = form.dataset.mailto;
-    var subject = fill(form.dataset.subject || 'Website enquiry', form);
-    var intro = form.dataset.intro ? form.dataset.intro + '\n\n' : '';
-    var full = intro + body + '\n\nSent from vestiamediation.co.uk';
-    var href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(full);
-    if (href.length > MAILTO_SOFT_LIMIT) {
-      copyText(full).then(function (ok) {
-        setStatus(form, statusMessage(
-          'Your email app should now open with your answers. Because they are long, some email apps shorten them, so ' +
-          (ok ? 'we have also copied everything to your clipboard: paste it into the email if anything is missing.'
-              : 'please check the email is complete before sending.'), email), 'ok');
-      });
-    } else {
-      setStatus(form, statusMessage('Your email app should now open with everything filled in. Just press send.', email), 'ok');
-    }
+  function mailtoHref(email, subject, body) {
+    return 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+  }
+
+  function openMail(form, href) {
     form.dispatchEvent(new CustomEvent('vestia:mailto', { bubbles: true, detail: href }));
     window.location.href = href;
   }
 
-  doc.querySelectorAll('form[data-mailto]').forEach(function (form) {
+  function sendMail(form) {
+    var email = form.dataset.mailto || form.dataset.email;
+    var subject = fill(form.dataset.subject || 'Website enquiry', form);
+    var intro = form.dataset.intro ? form.dataset.intro + '\n\n' : '';
+    var full = intro + formToText(form, { email: true }) + '\n\nSent from vestiamediation.co.uk';
+    var href = mailtoHref(email, subject, full);
+    if (href.length > MAILTO_SOFT_LIMIT) {
+      copyText(full).then(function (ok) {
+        setStatus(form, message(['Your email app should now open with your answers. Because they are long, some email apps shorten them, so ' +
+          (ok ? 'we have also copied everything to your clipboard: paste it into the email if anything is missing.'
+              : 'please check the email is complete before sending.')].concat(contactFallback(email))), 'ok');
+      });
+    } else {
+      setStatus(form, message(['Your email app should now open with everything filled in. Just press send.'].concat(contactFallback(email))), 'ok');
+    }
+    openMail(form, href);
+  }
+
+  // Sends a form to Formspree in the background, with readable field names in the email Vestia receives.
+  function sendFormspree(form, onDone) {
+    var data = new FormData();
+    data.append('_subject', fill(form.dataset.subject || 'Website enquiry', form));
+    if (form.dataset.formName) data.append('Form', form.dataset.formName);
+    collectAnswers(form).forEach(function (a) {
+      var key = a.name === 'email' ? 'email' : a.label;
+      data.append(key, a.value || '(not given)');
+    });
+    var trap = form.elements._gotcha;
+    if (trap) data.append('_gotcha', trap.value);
+    var btns = form.querySelectorAll('button[type=submit]');
+    btns.forEach(function (b) { b.disabled = true; });
+    setStatus(form, message(['Sending...']));
+    fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+      .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
+      .then(function () {
+        setStatus(form, message([form.dataset.success ||
+          'Thank you. Your message has reached us and we\'ll be in touch soon, usually within one working day.']), 'ok');
+        form.reset();
+        if (onDone) onDone(true);
+      })
+      .catch(function () {
+        setStatus(form, message(['Sorry, that didn\'t send. Please try again, ',
+          ['send it by email instead', '', function () { sendMail(form); }],
+          ', or call ' + PHONE + '.']), 'error');
+        if (onDone) onDone(false);
+      })
+      .then(function () { btns.forEach(function (b) { b.disabled = false; }); });
+  }
+
+  function validate(form) {
+    form.removeAttribute('novalidate');
+    var valid = form.reportValidity();
+    form.setAttribute('novalidate', '');
+    return valid;
+  }
+
+  function submitForm(form, onDone) {
+    if (form.hasAttribute('data-formspree')) sendFormspree(form, onDone);
+    else sendMail(form);
+  }
+
+  // Confidential pre-mediation form: download a Word document, then open an email to attach it to.
+  function sendDocx(form) {
+    var name = (form.elements.name && form.elements.name.value.trim()) || 'party';
+    var email = form.dataset.mailto;
+    var logo = doc.querySelector('.footer-brand img');
+    setStatus(form, message(['Preparing your document...']));
+    window.VestiaDocx.download(collectAnswers(form), {
+      name: name,
+      logoUrl: logo ? logo.src : null
+    }).then(function (filename) {
+      var href = mailtoHref(email, fill(form.dataset.subject, form),
+        'Dear Vestia,\n\nPlease find attached my completed pre-mediation information form.\n\nKind regards,\n' + name);
+      setStatus(form, message(['Your answers have been saved as "' + filename + '" (check your downloads). Next, ',
+        ['open an email to Vestia', '', function () { openMail(form, href); }],
+        ' and attach the document before you press send.']), 'ok');
+    }, function () {
+      setStatus(form, message(['Sorry, we couldn\'t create the document in this browser. Please ',
+        ['send your answers by email instead', '', function () { sendMail(form); }], '.']), 'error');
+    });
+  }
+
+  doc.querySelectorAll('form[data-mailto], form[data-formspree]').forEach(function (form) {
     if (form.id === 'intake-form') return; // handled by the wizard below
     form.setAttribute('novalidate', '');
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      form.removeAttribute('novalidate');
-      var valid = form.reportValidity();
-      form.setAttribute('novalidate', '');
-      if (!valid) return;
-      sendMail(form, formToText(form));
+      if (!validate(form)) return;
+      var action = e.submitter && e.submitter.dataset.action;
+      if (action === 'docx' && window.VestiaDocx) sendDocx(form);
+      else submitForm(form);
     });
   });
 
@@ -228,10 +325,10 @@
     intake.addEventListener('submit', function (e) {
       e.preventDefault();
       if (current !== steps.length - 1) { next.click(); return; }
-      sendMail(intake, formToText(intake));
+      submitForm(intake, function (ok) { if (ok) intake.classList.add('is-sent'); });
     });
     copy.addEventListener('click', function () {
-      copyText(formToText(intake)).then(function (ok) {
+      copyText(formToText(intake, { email: true })).then(function (ok) {
         var m = doc.createDocumentFragment();
         m.appendChild(doc.createTextNode(ok ? 'Summary copied. You can paste it into an email to enquiries@vestiamediation.co.uk.'
           : 'Copying did not work in this browser. Please select the summary text and copy it.'));

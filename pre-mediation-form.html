@@ -26,9 +26,11 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/quattrocento-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=6c652316">
+<link rel="stylesheet" href="assets/css/site.css?v=d2f645c0">
 <script>document.documentElement.classList.add('js')</script>
-<script src="assets/js/site.js?v=4e657f77" defer></script>
+<script src="assets/js/site.js?v=4fd5d9c5" defer></script>
+<script src="assets/js/docx.js?v=74f181ce" defer></script>
+
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.vestiamediation.co.uk/"},{"@type":"ListItem","position":2,"name":"Pre-mediation form","item":"https://www.vestiamediation.co.uk/pre-mediation-form"}]}]}</script>
 </head>
 <body>
@@ -55,15 +57,14 @@
 <p>This form goes to your mediator only. We will not share what you write with the other side, or with anyone else, without your permission, except where our <a href="mediation-agreement">Mediation Agreement</a> allows it (for example, where the law requires disclosure). Everything you provide is part of the mediation, so it is confidential and without prejudice: it can't be referred to or relied on in court if the dispute doesn't settle, unless it would have been admissible anyway.</p>
 </div>
 
-<p class="note">Take your time. Short answers are fine and you can leave out anything you'd rather discuss with the mediator directly. Pressing send opens an email in your own email app with your answers set out in full. Email isn't encrypted end to end, so if you'd prefer another way to send this, or need to send documents securely, <a href="mailto:enquiries@vestiamediation.co.uk?subject=Secure%20document%20transfer">ask us</a> and we'll arrange it.</p>
+<p class="note">Take your time. Short answers are fine and you can leave out anything you'd rather discuss with the mediator directly. When you've finished, you can save your answers as a Word document and attach it to an email to us, or send them in the body of an email. Either way, nothing is stored on this website: your answers go only from your own device to our inbox. Email isn't encrypted end to end, so if you'd prefer another way to send this, or need to send documents securely, <a href="mailto:enquiries@vestiamediation.co.uk?subject=Secure%20document%20transfer">ask us</a> and we'll arrange it.</p>
 
 <div class="form-panel" style="margin-top:26px">
-<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto: with every answer set out in full.
-     Long answers can be cut short by some email apps, which is why a private form service is recommended for this form.
-     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
-     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute.
-     Choose a provider that stores submissions in the UK or EU, and update the note above about email. -->
-<form class="form" action="mailto:enquiries@vestiamediation.co.uk?subject=CONFIDENTIAL%20pre-mediation%20information" method="post" enctype="text/plain"
+<!-- PRE-MEDIATION FORM: deliberately kept off Formspree so confidential answers go straight from the visitor's device
+     to Vestia's inbox. Visitors can download a Word document (built in their browser by assets/js/docx.js) and attach it
+     to an email, or send the answers in the body of an email (mailto:). data-keep-email stops the build script
+     switching this form to Formspree. -->
+<form class="form" data-keep-email action="mailto:enquiries@vestiamediation.co.uk?subject=CONFIDENTIAL%20pre-mediation%20information" method="post" enctype="text/plain"
  data-mailto="enquiries@vestiamediation.co.uk" data-subject="CONFIDENTIAL: pre-mediation information from {name}"
  data-intro="CONFIDENTIAL TO THE MEDIATOR. WITHOUT PREJUDICE.&#10;Pre-mediation information form (Vestia Mediation)">
 
@@ -175,7 +176,11 @@
 
 <div class="form-section" data-section="Confirmation">
 <label class="check" for="pm-confirm"><input id="pm-confirm" name="confirm" type="checkbox" data-label="Provided in confidence and without prejudice under the Mediation Agreement" required><span>I understand this information is given to the mediator in confidence and on a without prejudice basis, under the terms of the Mediation Agreement.</span></label>
-<button class="btn btn-primary" type="submit" style="margin-top:12px">Send to the mediator</button>
+<div class="form-actions">
+<button class="btn btn-primary js-only" type="submit" data-action="docx">Save as a Word document</button>
+<button class="btn btn-secondary" type="submit" data-action="email"><span class="js-only">Send in an email instead</span><span class="no-js-only">Send by email</span></button>
+</div>
+<p class="hint js-only" style="margin-top:12px">Saving creates a Word document on your device. We'll then open an email to us for you to attach it to.</p>
 <p class="form-status" role="status" aria-live="polite"></p>
 </div>
 </form>
@@ -190,12 +195,10 @@
 <h2 id="book-block-title">Book a free 15-minute call</h2>
 <p>A short, no-obligation chat with one of our mediators, who'll tell you honestly whether mediation suits your dispute.</p>
 </div>
-<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto:.
-     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
-     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute.
-     site.js only handles forms that still have data-mailto, so the form will then submit normally. -->
+<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
+     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
 <form class="book-form" action="mailto:enquiries@vestiamediation.co.uk?subject=Free%2015-minute%20call%20request" method="post" enctype="text/plain"
- data-mailto="enquiries@vestiamediation.co.uk" data-subject="Free 15-minute call request: {name}" data-intro="Please contact me to arrange a free 15-minute call.">
+ data-mailto="enquiries@vestiamediation.co.uk" data-form-name="Free 15-minute call (quick form)" data-success="Thank you. We've received your request and will be in touch to arrange your call, usually within one working day." data-subject="Free 15-minute call request: {name}" data-intro="Please contact me to arrange a free 15-minute call.">
 <div class="field"><label for="bb-name">Name</label><input id="bb-name" name="name" type="text" autocomplete="name" required></div>
 <div class="field"><label for="bb-email">Email</label><input id="bb-email" name="email" type="email" autocomplete="email" required></div>
 <div class="field"><label for="bb-phone">Phone <span class="opt">(optional)</span></label><input id="bb-phone" name="phone" type="tel" autocomplete="tel"></div>

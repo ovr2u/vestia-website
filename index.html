@@ -26,9 +26,10 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" href="assets/fonts/quattrocento-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css?v=6c652316">
+<link rel="stylesheet" href="assets/css/site.css?v=d2f645c0">
 <script>document.documentElement.classList.add('js')</script>
-<script src="assets/js/site.js?v=4e657f77" defer></script>
+<script src="assets/js/site.js?v=4fd5d9c5" defer></script>
+
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"ProfessionalService","@id":"https://www.vestiamediation.co.uk/#organization","name":"Vestia Mediation","legalName":"Concibrium Limited","url":"https://www.vestiamediation.co.uk/","logo":"https://www.vestiamediation.co.uk/assets/img/brand/lockup-1000.png","image":"https://www.vestiamediation.co.uk/assets/img/og/vestia-mediation.jpg","slogan":"From Conflict to Clarity.","description":"Property, commercial and civil mediation across the UK, internationally and online, with specialist property dispute mediators.","telephone":"+44 330 133 5199","email":"enquiries@vestiamediation.co.uk","priceRange":"££","address":{"@type":"PostalAddress","streetAddress":"Gw 522, 5th Floor, The Grange, 100 High Street","addressLocality":"London","postalCode":"N14 6BN","addressCountry":"GB"},"areaServed":[{"@type":"Country","name":"United Kingdom"}],"sameAs":["https://www.linkedin.com/company/vestiamediation"],"knowsAbout":["Property dispute mediation","Landlord and tenant disputes","Boundary and neighbour disputes","Commercial mediation","Civil mediation","Workplace and employment mediation","Private family mediation","Restorative justice"],"employee":[{"@id":"https://www.vestiamediation.co.uk/lucie-annerhodes#person"},{"@id":"https://www.vestiamediation.co.uk/claudiahaisman-green#person"},{"@id":"https://www.vestiamediation.co.uk/gurpritmattu#person"},{"@id":"https://www.vestiamediation.co.uk/amykaur#person"}]},{"@type":"WebSite","@id":"https://www.vestiamediation.co.uk/#website","url":"https://www.vestiamediation.co.uk/","name":"Vestia Mediation","publisher":{"@id":"https://www.vestiamediation.co.uk/#organization"},"inLanguage":"en-GB"}]}</script>
 </head>
 <body>
@@ -197,12 +198,10 @@
 <h2 id="book-block-title">Book a free 15-minute call</h2>
 <p>A short, no-obligation chat with one of our mediators, who'll tell you honestly whether mediation suits your dispute.</p>
 </div>
-<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto:.
-     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
-     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute.
-     site.js only handles forms that still have data-mailto, so the form will then submit normally. -->
+<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
+     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
 <form class="book-form" action="mailto:enquiries@vestiamediation.co.uk?subject=Free%2015-minute%20call%20request" method="post" enctype="text/plain"
- data-mailto="enquiries@vestiamediation.co.uk" data-subject="Free 15-minute call request: {name}" data-intro="Please contact me to arrange a free 15-minute call.">
+ data-mailto="enquiries@vestiamediation.co.uk" data-form-name="Free 15-minute call (quick form)" data-success="Thank you. We've received your request and will be in touch to arrange your call, usually within one working day." data-subject="Free 15-minute call request: {name}" data-intro="Please contact me to arrange a free 15-minute call.">
 <div class="field"><label for="bb-name">Name</label><input id="bb-name" name="name" type="text" autocomplete="name" required></div>
 <div class="field"><label for="bb-email">Email</label><input id="bb-email" name="email" type="email" autocomplete="email" required></div>
 <div class="field"><label for="bb-phone">Phone <span class="opt">(optional)</span></label><input id="bb-phone" name="phone" type="tel" autocomplete="tel"></div>

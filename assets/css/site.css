@@ -448,3 +448,12 @@ html:not(.js) .js-only{display:none!important}
 
 .split-quote{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:clamp(28px,5vw,64px);align-items:start}
 @media (max-width:900px){.split-quote{grid-template-columns:1fr}}
+
+/* Form sending states */
+.link-button{background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-decoration-color:var(--beige);text-underline-offset:3px;cursor:pointer}
+.link-button:hover{text-decoration-color:currentColor}
+.book-block .link-button{color:var(--cream)}
+form.is-sent [data-step],form.is-sent .wizard-nav,form.is-sent .wizard-progress,form.is-sent .wizard-count{display:none!important}
+form[data-formspree] .if-mailto,form[data-mailto] .if-formspree{display:none}
+button[disabled]{opacity:.6;cursor:progress}
+.form-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px}

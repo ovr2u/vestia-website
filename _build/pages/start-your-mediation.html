@@ -12,13 +12,10 @@ priority: 0.8
 <div class="wrap">
 <div class="wizard">
 <div class="form-panel">
-<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto: with a structured summary.
-     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
-     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute.
-     The step-by-step behaviour still works; the final button then submits the form normally.
-     If you swap, also change the "Send to Vestia" note in step 6. -->
+<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
+     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
 <form id="intake-form" class="form" action="mailto:{{EMAIL}}?subject=Mediation%20enquiry" method="post" enctype="text/plain"
- data-mailto="{{EMAIL}}" data-subject="Mediation enquiry: {type} dispute" data-intro="MEDIATION ENQUIRY (sent from the Vestia website intake)">
+ data-mailto="{{EMAIL}}" data-form-name="Mediation intake" data-success="Thank you. Your enquiry has reached us, and we'll come back to you with a clear next step, usually within one working day." data-subject="Mediation enquiry: {type} dispute" data-intro="MEDIATION ENQUIRY (sent from the Vestia website intake)">
 <div class="wizard-progress js-only" aria-hidden="true"></div>
 <p class="wizard-count js-only" aria-live="polite"></p>
 
@@ -130,7 +127,7 @@ priority: 0.8
 
 <div data-step class="js-only">
 <h2 class="step-title">Check and send</h2>
-<p class="hint">Pressing send opens an email to us with this summary in your own email app. Nothing reaches us until you press send there.</p>
+<p class="hint"><span class="if-mailto">Pressing send opens an email to us with this summary in your own email app. Nothing reaches us until you press send there.</span><span class="if-formspree">Check your answers, then press send and they'll come straight to us.</span></p>
 <pre class="summary" aria-live="polite"></pre>
 </div>
 

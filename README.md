@@ -28,7 +28,8 @@ Writing style for all copy: UK English, no em or en dashes, plain and specific.
 ## Things to know
 
 - **Pre-launch noindex:** `NOINDEX = True` in `_build/build.py` adds a robots `noindex` tag to every page. Set it to `False` and rebuild at go-live.
-- **Forms:** every form opens the visitor's email app (`mailto:` to enquiries@vestiamediation.co.uk) and works without JavaScript. Look for `FORM SERVICE SWAP` comments to switch a form to Formspree or Tally.
+- **Forms:** set `FORMSPREE_FORM_ID` in `_build/build.py` to send the everyday forms through Formspree (the build adds the endpoint, a `_gotcha` spam trap and a default subject; `site.js` sends them in the background with readable field names). Leave it empty and they open the visitor's email app. All forms still work without JavaScript.
+- **Pre-mediation form:** always stays on email (`data-keep-email`). `assets/js/docx.js` builds a branded Word document in the visitor's browser (nothing is uploaded), then the visitor attaches it to an email. They can also send the answers in the body of an email.
 - **Booking:** `book-a-call` has a single `SCHEDULER SLOT` container ready for a Calendly (or similar) embed.
 - **Accreditations:** CMC badges appear only on the profiles of the individual CMC Registered Mediators. Firm-level wording must stay as: "Our mediators are accredited by CEDR and the Society of Mediators, and the team includes CMC Registered Mediators 2026."
 - **Links are relative**, so the site works both on the GitHub Pages preview (`/vestia-website/`) and on the real domain. Canonical URLs and the sitemap always point to `https://www.vestiamediation.co.uk`.

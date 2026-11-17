@@ -30,11 +30,10 @@ priority: 0.8
 </div>
 <div class="form-panel">
 <h2 style="font-size:var(--step-2)">Send us a message</h2>
-<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto:.
-     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
-     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute. -->
+<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
+     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
 <form class="form" action="mailto:{{EMAIL}}?subject=Website%20enquiry" method="post" enctype="text/plain"
- data-mailto="{{EMAIL}}" data-subject="Website enquiry from {first} {last}">
+ data-mailto="{{EMAIL}}" data-form-name="Contact form" data-subject="Website enquiry from {first} {last}">
 <div class="form-row">
 <div class="field"><label for="ct-first">First name</label><input id="ct-first" name="first" type="text" autocomplete="given-name" required></div>
 <div class="field"><label for="ct-last">Last name</label><input id="ct-last" name="last" type="text" autocomplete="family-name" required></div>

@@ -7,6 +7,7 @@ crumb: Pre-mediation form
 eyebrow: For parties with a mediation booked
 lead: Each party completes this before the mediation day. It gives your mediator a head start: who's involved, what's happened, what you'd like to come out of the day, and anything that would help them run it well.
 priority: 0.3
+extra_js: docx
 ---
 <section class="section">
 <div class="wrap narrow">
@@ -16,15 +17,14 @@ priority: 0.3
 <p>This form goes to your mediator only. We will not share what you write with the other side, or with anyone else, without your permission, except where our <a href="~/mediation-agreement">Mediation Agreement</a> allows it (for example, where the law requires disclosure). Everything you provide is part of the mediation, so it is confidential and without prejudice: it can't be referred to or relied on in court if the dispute doesn't settle, unless it would have been admissible anyway.</p>
 </div>
 
-<p class="note">Take your time. Short answers are fine and you can leave out anything you'd rather discuss with the mediator directly. Pressing send opens an email in your own email app with your answers set out in full. Email isn't encrypted end to end, so if you'd prefer another way to send this, or need to send documents securely, <a href="mailto:{{EMAIL}}?subject=Secure%20document%20transfer">ask us</a> and we'll arrange it.</p>
+<p class="note">Take your time. Short answers are fine and you can leave out anything you'd rather discuss with the mediator directly. When you've finished, you can save your answers as a Word document and attach it to an email to us, or send them in the body of an email. Either way, nothing is stored on this website: your answers go only from your own device to our inbox. Email isn't encrypted end to end, so if you'd prefer another way to send this, or need to send documents securely, <a href="mailto:{{EMAIL}}?subject=Secure%20document%20transfer">ask us</a> and we'll arrange it.</p>
 
 <div class="form-panel" style="margin-top:26px">
-<!-- FORM SERVICE SWAP (after launch): this form opens the visitor's email app via mailto: with every answer set out in full.
-     Long answers can be cut short by some email apps, which is why a private form service is recommended for this form.
-     To use Formspree or Tally instead, change action to your endpoint (e.g. https://formspree.io/f/XXXXXXX),
-     keep method="post", delete enctype="text/plain" and delete the data-mailto attribute.
-     Choose a provider that stores submissions in the UK or EU, and update the note above about email. -->
-<form class="form" action="mailto:{{EMAIL}}?subject=CONFIDENTIAL%20pre-mediation%20information" method="post" enctype="text/plain"
+<!-- PRE-MEDIATION FORM: deliberately kept off Formspree so confidential answers go straight from the visitor's device
+     to Vestia's inbox. Visitors can download a Word document (built in their browser by assets/js/docx.js) and attach it
+     to an email, or send the answers in the body of an email (mailto:). data-keep-email stops the build script
+     switching this form to Formspree. -->
+<form class="form" data-keep-email action="mailto:{{EMAIL}}?subject=CONFIDENTIAL%20pre-mediation%20information" method="post" enctype="text/plain"
  data-mailto="{{EMAIL}}" data-subject="CONFIDENTIAL: pre-mediation information from {name}"
  data-intro="CONFIDENTIAL TO THE MEDIATOR. WITHOUT PREJUDICE.&#10;Pre-mediation information form (Vestia Mediation)">
 
@@ -136,7 +136,11 @@ priority: 0.3
 
 <div class="form-section" data-section="Confirmation">
 <label class="check" for="pm-confirm"><input id="pm-confirm" name="confirm" type="checkbox" data-label="Provided in confidence and without prejudice under the Mediation Agreement" required><span>I understand this information is given to the mediator in confidence and on a without prejudice basis, under the terms of the Mediation Agreement.</span></label>
-<button class="btn btn-primary" type="submit" style="margin-top:12px">Send to the mediator</button>
+<div class="form-actions">
+<button class="btn btn-primary js-only" type="submit" data-action="docx">Save as a Word document</button>
+<button class="btn btn-secondary" type="submit" data-action="email"><span class="js-only">Send in an email instead</span><span class="no-js-only">Send by email</span></button>
+</div>
+<p class="hint js-only" style="margin-top:12px">Saving creates a Word document on your device. We'll then open an email to us for you to attach it to.</p>
 <p class="form-status" role="status" aria-live="polite"></p>
 </div>
 </form>
