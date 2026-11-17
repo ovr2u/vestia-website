@@ -468,11 +468,13 @@ def org_schema():
             "postalCode": "N14 6BN",
             "addressCountry": "GB",
         },
-        "areaServed": [{"@type": "Country", "name": "United Kingdom"}],
+        "areaServed": [{"@type": "Country", "name": "United Kingdom"}, {"@type": "Country", "name": "India"}],
+        "knowsLanguage": ["English", "Punjabi", "Hindi", "German"],
         "sameAs": [LINKEDIN],
         "knowsAbout": ["Property dispute mediation", "Landlord and tenant disputes", "Boundary and neighbour disputes",
                        "Commercial mediation", "Civil mediation", "Workplace and employment mediation",
-                       "Private family mediation", "Restorative justice"],
+                       "Private family mediation", "Restorative justice", "International mediation",
+                       "Facilitating property transactions"],
         "employee": [{"@id": url_for(MEDIATORS[k]["path"]) + "#person"} for k in ORDER],
     }
 

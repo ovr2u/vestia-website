@@ -38,7 +38,7 @@ p{font-size:24px;color:#655E55;margin-top:18px;letter-spacing:.04em;line-height:
 img.mark{width:250px}
 </style></head><body>
 <div class="l"><img class="lock" src="${asset('assets/img/brand/lockup-1000.png')}"><h1>From conflict to clarity.</h1>
-<p>Property, commercial and civil mediation<br>across the UK and online</p></div>
+<p>Property, commercial and civil mediation<br>across the UK, internationally and online</p></div>
 <div class="r"><img class="mark" src="${asset('assets/img/brand/mark-720.png')}"></div>
 </body></html>`;
 
