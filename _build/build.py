@@ -307,6 +307,20 @@ FEE_TABLE = """<table class="fee-table">
 </tbody>
 </table>"""
 
+# Facilitating transactions and projects: one global reading-in and basic fee, banded by transaction value.
+FACILITATION_FEES = """<table class="price-bands">
+<caption>Reading-in and basic fee</caption>
+<thead><tr><th scope="col">Transaction value</th><th scope="col">Fee per party</th></tr></thead>
+<tbody>
+<tr><th scope="row">Up to £1 million</th><td>£1,000 + VAT</td></tr>
+<tr><th scope="row">£1 million to £2 million</th><td>£1,200 + VAT</td></tr>
+<tr><th scope="row">£2 million to £5 million</th><td>£1,400 + VAT</td></tr>
+<tr><th scope="row">Over £5 million</th><td>Price on request</td></tr>
+</tbody>
+</table>
+<p>The basic fee covers reading the documents and meetings or calls of up to 4 hours in total.</p>
+<p><strong>Additional hours:</strong> £110 + VAT per hour per party.</p>"""
+
 VALUES = [
     ("V", "Voice", "Every party is properly heard, so all perspectives are recognised and respected."),
     ("E", "Equity", "The process is fair and balanced, even where power or confidence is unequal."),
@@ -590,6 +604,7 @@ def build():
         body = body.replace("{{HDC_QUOTE}}", HDC_QUOTE.format(rest=HDC_REST, about=""))
         body = body.replace("{{HDC_QUOTE_SHORT}}", HDC_QUOTE.format(rest="", about=f', on <a href="{r}lucie-annerhodes">Lucie-Anne Rhodes</a>'))
         body = body.replace("{{FEE_TABLE}}", FEE_TABLE)
+        body = body.replace("{{FACILITATION_FEES}}", FACILITATION_FEES)
         body = body.replace("{{VALUES}}", values_html())
         body = body.replace("{{TRUST}}", TRUST_LINE)
         body = body.replace("{{CTA}}", cta_pair(r))

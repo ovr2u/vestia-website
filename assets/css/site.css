@@ -320,6 +320,12 @@ hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
   .fee-table .per{display:inline}
 }
 .fee-notes{margin-top:28px}
+.price-bands{width:100%;border-collapse:collapse;margin:2px 0 18px;font-size:1rem}
+.price-bands caption{text-align:left;font-weight:700;padding-bottom:8px}
+.price-bands th,.price-bands td{padding:9px 0;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.price-bands thead th{font-size:.8125rem;letter-spacing:.04em;color:var(--muted);font-weight:400;padding-top:0}
+.price-bands tbody th{font-weight:400;padding-right:16px}
+.price-bands td,.price-bands thead th:last-child{text-align:right;white-space:nowrap}
 
 /* Forms */
 .form{max-width:100%}
@@ -472,3 +478,5 @@ dialog.popup::backdrop{background:rgba(58,58,58,.45)}
 .popup-box p{margin:0;color:var(--ink)}
 .popup-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
 .popup-actions .btn{flex:1 1 auto}
+.popup-box p + p{margin-top:10px}
+.popup-quiet{flex:1 1 100%;padding:10px 0 2px;text-align:center;color:var(--muted)}

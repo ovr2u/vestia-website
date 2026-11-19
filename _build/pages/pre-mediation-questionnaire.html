@@ -19,13 +19,14 @@ extra_js: docx
 
 <p class="note">Take your time. Short answers are fine, and you can leave out anything you'd rather discuss with the mediator directly. Questions marked as optional can be skipped. If you're a solicitor completing this for a client, please answer for your client.</p>
 <p class="note">Prefer to fill it in offline? <a href="~/assets/docs/vestia-pre-mediation-questionnaire.docx" download>Download a blank copy as a Word document</a> and email it to us when it's done.</p>
-<p class="note">When you've finished, you can save your answers as a Word document and attach it to an email to us, or send them in the body of an email. Either way, nothing is stored on this website: your answers go only from your own device to our inbox. Email isn't encrypted end to end, so if you'd prefer another way to send this, or need to send documents securely, <a href="mailto:{{EMAIL}}?subject=Secure%20document%20transfer">ask us</a> and we'll arrange it.</p>
+<p class="note">When you've finished, press "Send my answers" and choose how to send them: in a new email from your own email app, with everything filled in, or saved as a Word document that you attach to an email yourself. Either way, nothing is stored on this website: your answers go only from your own device to our inbox. Email isn't encrypted end to end, so if you'd prefer another way to send this, or need to send documents securely, <a href="mailto:{{EMAIL}}?subject=Secure%20document%20transfer">ask us</a> and we'll arrange it.</p>
 
 <div class="form-panel" style="margin-top:26px">
-<!-- PRE-MEDIATION QUESTIONNAIRE: deliberately kept off Formspree so confidential answers go straight from the visitor's
-     device to Vestia's inbox. Visitors can download a Word document (built in their browser by assets/js/docx.js) and
-     attach it to an email, or send the answers in the body of an email (mailto:). data-keep-email stops the build
-     script switching this form to Formspree. Questions follow Vestia's own Pre-Mediation Questionnaire. -->
+<!-- PRE-MEDIATION QUESTIONNAIRE: deliberately kept off Formspark so confidential answers go straight from the visitor's
+     device to Vestia's inbox. "Send my answers" asks the visitor to choose: open a new email in their own email app with
+     the answers in the body (mailto:), or save a Word document (built in their browser by assets/js/docx.js) to attach.
+     Nothing downloads unless they choose to save. data-keep-email stops the build script switching this form to
+     Formspark. Without JavaScript the button simply opens an email. Questions follow Vestia's own questionnaire. -->
 <form class="form" data-keep-email action="mailto:{{EMAIL}}?subject=CONFIDENTIAL%20pre-mediation%20questionnaire" method="post" enctype="text/plain"
  data-mailto="{{EMAIL}}" data-subject="CONFIDENTIAL: pre-mediation questionnaire from {name}"
  data-intro="CONFIDENTIAL TO THE MEDIATOR. WITHOUT PREJUDICE.&#10;Pre-mediation questionnaire (Vestia Mediation)">
@@ -170,10 +171,9 @@ extra_js: docx
 <textarea id="pm-docs" name="documents" rows="3" aria-describedby="pm-docs-hint" data-label="Key documents"></textarea></div>
 <label class="check" for="pm-consent"><input id="pm-consent" name="consent" type="checkbox" data-label="Consent to processing personal data for this mediation" required><span>I / we agree to the processing and storage of personal data as necessary to organise and conduct this mediation (see our <a href="~/privacy">Privacy Policy</a>). Consent is required to enable us to proceed.</span></label>
 <div class="form-actions">
-<button class="btn btn-primary js-only" type="submit" data-action="docx">Save as a Word document</button>
-<button class="btn btn-secondary" type="submit" data-action="email"><span class="js-only">Send in an email instead</span><span class="no-js-only">Send by email</span></button>
+<button class="btn btn-primary" type="submit" data-action="choose">Send my answers</button>
 </div>
-<p class="hint js-only" style="margin-top:12px">Saving creates a Word document on your device. We'll then open an email to us for you to attach it to.</p>
+<p class="hint js-only" style="margin-top:12px">Next, you can choose to send your answers in an email or save them as a Word document.</p>
 <p class="form-status" role="status" aria-live="polite"></p>
 </div>
 </form>

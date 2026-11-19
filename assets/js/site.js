@@ -185,40 +185,50 @@
     var intro = form.dataset.intro ? form.dataset.intro + '\n\n' : '';
     var full = intro + formToText(form, { email: true }) + '\n\nSent from vestiamediation.co.uk';
     var href = mailtoHref(email, subject, full);
+    var result;
     if (href.length > MAILTO_SOFT_LIMIT) {
-      copyText(full).then(function (ok) {
+      result = copyText(full).then(function (ok) {
         setStatus(form, message(['Your email app should now open with your answers. Because they are long, some email apps shorten them, so ' +
           (ok ? 'we have also copied everything to your clipboard: paste it into the email if anything is missing.'
               : 'please check the email is complete before sending.')].concat(contactFallback(email))), 'ok');
+        return { long: true, copied: ok };
       });
     } else {
       setStatus(form, message(['Your email app should now open with everything filled in. Just press send.'].concat(contactFallback(email))), 'ok');
+      result = Promise.resolve({ long: false, copied: false });
     }
     openMail(form, href);
+    return result;
   }
 
   // A pop-up message over the page, so the result is obvious even on a phone. Closes with its buttons,
   // the Escape key or a tap outside the box, then returns focus to where the visitor was.
+  var popupCount = 0;
   function popup(opts) {
     var dlg = doc.createElement('dialog');
+    var id = 'popup-title-' + (++popupCount);
     dlg.className = 'popup' + (opts.kind ? ' popup--' + opts.kind : '');
-    dlg.setAttribute('aria-labelledby', 'popup-title');
+    dlg.setAttribute('aria-labelledby', id);
     var box = doc.createElement('div');
     box.className = 'popup-box';
     var mark = doc.querySelector('.brand img');
     if (mark) { var m = doc.createElement('img'); m.src = mark.src; m.alt = ''; m.className = 'popup-mark'; box.appendChild(m); }
-    var h = doc.createElement('h2'); h.id = 'popup-title'; h.textContent = opts.title;
-    var p = doc.createElement('p'); p.textContent = opts.text;
+    var h = doc.createElement('h2'); h.id = id; h.textContent = opts.title;
+    box.appendChild(h);
+    [].concat(opts.text).forEach(function (t) { var p = doc.createElement('p'); p.textContent = t; box.appendChild(p); });
     var actions = doc.createElement('div'); actions.className = 'popup-actions';
-    box.append(h, p, actions);
+    box.appendChild(actions);
     dlg.appendChild(box);
     var returnTo = opts.returnFocus || doc.activeElement;
     function close() { if (dlg.close) dlg.close(); else done(); }
-    function done() { dlg.remove(); if (returnTo && returnTo.focus) returnTo.focus(); }
+    function done() {
+      dlg.remove();
+      if (!doc.querySelector('dialog.popup[open]') && returnTo && returnTo.focus) returnTo.focus();
+    }
     (opts.actions || [{ label: 'Back to the page' }]).forEach(function (a, i) {
       var b = doc.createElement('button');
       b.type = 'button';
-      b.className = 'btn ' + (i === 0 ? 'btn-primary' : 'btn-secondary');
+      b.className = a.quiet ? 'link-button popup-quiet' : 'btn ' + (i === 0 ? 'btn-primary' : 'btn-secondary');
       b.textContent = a.label;
       b.addEventListener('click', function () { close(); if (a.run) a.run(); });
       actions.appendChild(b);
@@ -280,8 +290,35 @@
     else sendMail(form);
   }
 
-  // Confidential pre-mediation questionnaire: download a Word document, then open an email to attach it to.
-  function sendDocx(form) {
+  /* Confidential pre-mediation questionnaire. "Send my answers" asks the visitor how to send: a new email in their own
+     email app with the answers filled in, or a Word document saved to their device. Nothing downloads unless they choose
+     to save. */
+  function chooseSend(form, returnTo) {
+    var canSave = !!window.VestiaDocx;
+    var actions = [{ label: 'Send by email', run: function () { emailAnswers(form, returnTo); } }];
+    if (canSave) actions.push({ label: 'Save as a Word document', run: function () { saveDocx(form, returnTo); } });
+    actions.push({ label: 'Back to the form', quiet: true });
+    popup({ title: 'Send your answers', returnFocus: returnTo, actions: actions,
+      text: canSave
+        ? 'Send by email opens a new email to Vestia in your own email app, with your answers already filled in. Or save them as a Word document to attach to an email yourself, which also gives you a copy to keep.'
+        : 'This opens a new email to Vestia in your own email app, with your answers already filled in.' });
+  }
+
+  function emailAnswers(form, returnTo) {
+    var email = form.dataset.mailto;
+    sendMail(form).then(function (r) {
+      var text = ['A new email to Vestia should now be open, with our address, the subject and your answers filled in. Please check it and press send.'];
+      if (r.long) text.push(r.copied
+        ? 'Because your answers are long, some email apps shorten them, so we\'ve also copied everything. If anything is missing from the email, paste it in.'
+        : 'Because your answers are long, some email apps shorten them, so please check nothing is missing before you send.');
+      text.push('If no email opened, email us at ' + email + ' or call ' + PHONE + '.');
+      var actions = [{ label: 'Back to the form' }];
+      if (window.VestiaDocx) actions.push({ label: 'Save as a Word document', run: function () { saveDocx(form, returnTo); } });
+      popup({ kind: 'ok', title: 'Check your email app', text: text, returnFocus: returnTo, actions: actions });
+    });
+  }
+
+  function saveDocx(form, returnTo) {
     var name = (form.elements.name && form.elements.name.value.trim()) || 'party';
     var email = form.dataset.mailto;
     var logo = doc.querySelector('.footer-brand img');
@@ -292,15 +329,19 @@
     }).then(function (filename) {
       var href = mailtoHref(email, fill(form.dataset.subject, form),
         'Dear Vestia,\n\nPlease find attached my completed pre-mediation questionnaire.\n\nKind regards,\n' + name);
-      setStatus(form, message(['Your answers have been saved as "' + filename + '" (check your downloads). Next, ',
+      setStatus(form, message(['Your answers have been saved as "' + filename + '" (check your downloads). To send it, ',
         ['open an email to Vestia', '', function () { openMail(form, href); }],
         ' and attach the document before you press send.']), 'ok');
-      popup({ kind: 'ok', title: 'Your document is saved',
-        text: 'We\'ve saved your answers as "' + filename + '" in your downloads. Next, open an email to Vestia and attach the document before you press send.',
+      popup({ kind: 'ok', title: 'Your document is saved', returnFocus: returnTo,
+        text: ['We\'ve saved your answers as "' + filename + '" in your downloads.',
+          'To send it, open an email to Vestia and attach the document before you press send. The button below starts the email for you.'],
         actions: [{ label: 'Open an email to Vestia', run: function () { openMail(form, href); } }, { label: 'Back to the form' }] });
     }, function () {
       setStatus(form, message(['Sorry, we couldn\'t create the document in this browser. Please ',
-        ['send your answers by email instead', '', function () { sendMail(form); }], '.']), 'error');
+        ['send your answers by email instead', '', function () { emailAnswers(form, returnTo); }], '.']), 'error');
+      popup({ kind: 'error', title: 'Sorry, that didn\'t work', returnFocus: returnTo,
+        text: 'We couldn\'t create the document in this browser. You can send your answers by email instead.',
+        actions: [{ label: 'Send by email instead', run: function () { emailAnswers(form, returnTo); } }, { label: 'Back to the form' }] });
     });
   }
 
@@ -311,7 +352,7 @@
       e.preventDefault();
       if (!validate(form)) return;
       var action = e.submitter && e.submitter.dataset.action;
-      if (action === 'docx' && window.VestiaDocx) sendDocx(form);
+      if (action === 'choose') chooseSend(form, e.submitter);
       else submitForm(form);
     });
   });
