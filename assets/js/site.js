@@ -197,6 +197,39 @@
     openMail(form, href);
   }
 
+  // A pop-up message over the page, so the result is obvious even on a phone. Closes with its buttons,
+  // the Escape key or a tap outside the box, then returns focus to where the visitor was.
+  function popup(opts) {
+    var dlg = doc.createElement('dialog');
+    dlg.className = 'popup' + (opts.kind ? ' popup--' + opts.kind : '');
+    dlg.setAttribute('aria-labelledby', 'popup-title');
+    var box = doc.createElement('div');
+    box.className = 'popup-box';
+    var mark = doc.querySelector('.brand img');
+    if (mark) { var m = doc.createElement('img'); m.src = mark.src; m.alt = ''; m.className = 'popup-mark'; box.appendChild(m); }
+    var h = doc.createElement('h2'); h.id = 'popup-title'; h.textContent = opts.title;
+    var p = doc.createElement('p'); p.textContent = opts.text;
+    var actions = doc.createElement('div'); actions.className = 'popup-actions';
+    box.append(h, p, actions);
+    dlg.appendChild(box);
+    var returnTo = opts.returnFocus || doc.activeElement;
+    function close() { if (dlg.close) dlg.close(); else done(); }
+    function done() { dlg.remove(); if (returnTo && returnTo.focus) returnTo.focus(); }
+    (opts.actions || [{ label: 'Back to the page' }]).forEach(function (a, i) {
+      var b = doc.createElement('button');
+      b.type = 'button';
+      b.className = 'btn ' + (i === 0 ? 'btn-primary' : 'btn-secondary');
+      b.textContent = a.label;
+      b.addEventListener('click', function () { close(); if (a.run) a.run(); });
+      actions.appendChild(b);
+    });
+    dlg.addEventListener('close', done);
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+    doc.body.appendChild(dlg);
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+    actions.querySelector('button').focus();
+  }
+
   // Sends a form to Formspark (EU-based) in the background, with readable field names in the email Vestia receives.
   function sendFormService(form, onDone) {
     var data = { _email: { subject: fill(form.dataset.subject || 'Website enquiry', form), from: 'Vestia website' } };
@@ -214,16 +247,23 @@
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' } })
       .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
       .then(function () {
-        setStatus(form, message([form.dataset.success ||
-          'Thank you. Your message has reached us and we\'ll be in touch soon, usually within one working day.']), 'ok');
+        var thanks = form.dataset.success ||
+          'Thank you. Your message has reached us and we\'ll be in touch soon, usually within one working day.';
+        setStatus(form, message([thanks]), 'ok');
         form.reset();
         if (onDone) onDone(true);
+        popup({ kind: 'ok', title: 'Thank you', text: thanks.replace(/^Thank you\.\s*/, ''),
+          returnFocus: btns[btns.length - 1], actions: [{ label: 'Back to the page' }] });
       })
       .catch(function () {
         setStatus(form, message(['Sorry, that didn\'t send. Please try again, ',
           ['send it by email instead', '', function () { sendMail(form); }],
           ', or call ' + PHONE + '.']), 'error');
         if (onDone) onDone(false);
+        popup({ kind: 'error', title: 'Sorry, that didn\'t send',
+          text: 'Your answers are still in the form. You can send them by email instead, try again in a moment, or call us on ' + PHONE + '.',
+          returnFocus: btns[btns.length - 1],
+          actions: [{ label: 'Send by email instead', run: function () { sendMail(form); } }, { label: 'Back to the form' }] });
       })
       .then(function () { btns.forEach(function (b) { b.disabled = false; }); });
   }
@@ -255,6 +295,9 @@
       setStatus(form, message(['Your answers have been saved as "' + filename + '" (check your downloads). Next, ',
         ['open an email to Vestia', '', function () { openMail(form, href); }],
         ' and attach the document before you press send.']), 'ok');
+      popup({ kind: 'ok', title: 'Your document is saved',
+        text: 'We\'ve saved your answers as "' + filename + '" in your downloads. Next, open an email to Vestia and attach the document before you press send.',
+        actions: [{ label: 'Open an email to Vestia', run: function () { openMail(form, href); } }, { label: 'Back to the form' }] });
     }, function () {
       setStatus(form, message(['Sorry, we couldn\'t create the document in this browser. Please ',
         ['send your answers by email instead', '', function () { sendMail(form); }], '.']), 'error');
