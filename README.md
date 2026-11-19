@@ -13,6 +13,7 @@ To put it live, see **[DEPLOY.md](DEPLOY.md)**.
 | `_build/build.py` | Wraps each fragment in the shared head (SEO tags, schema.org data), header, booking block and footer, and writes the finished pages plus `sitemap.xml`. |
 | `_build/assets.py` | Regenerates optimised headshots, badges, logos and favicons from the brand pack. |
 | `_build/render.mjs` | Regenerates the social sharing images and the fees price list PDF (needs Playwright). |
+| `_build/questionnaire-docx.mjs` | Regenerates the blank Word questionnaire from the website form's questions (needs Playwright and docx). |
 | `assets/` | CSS, JavaScript, self-hosted Quattrocento Sans (SIL Open Font Licence) and images. |
 | `_files/ugd/` | PDFs kept at their old Wix addresses: the fees price list and the Mediation Agreement. |
 | `Vestia website rebuild/` | Brand pack, design reference, and an archive of every image downloaded from the old site. |
@@ -28,7 +29,7 @@ Writing style for all copy: UK English, no em or en dashes, plain and specific.
 ## Things to know
 
 - **Pre-launch noindex:** `NOINDEX = True` in `_build/build.py` adds a robots `noindex` tag to every page. Set it to `False` and rebuild at go-live.
-- **Forms:** set `FORMSPREE_FORM_ID` in `_build/build.py` to send the everyday forms through Formspree (the build adds the endpoint, a `_gotcha` spam trap and a default subject; `site.js` sends them in the background with readable field names). Leave it empty and they open the visitor's email app. All forms still work without JavaScript.
+- **Forms:** `FORMSPARK_FORM_ID` in `_build/build.py` sends the everyday forms through Formspark (EU-based); the build adds the endpoint, a `_gotcha` spam trap and a default subject, and `site.js` sends them in the background as JSON with readable field names. Leave it empty and they open the visitor's email app. All forms still work without JavaScript.
 - **Pre-mediation questionnaire:** always stays on email (`data-keep-email`). `assets/js/docx.js` builds a branded Word document in the visitor's browser (nothing is uploaded), then the visitor attaches it to an email. They can also send the answers in the body of an email.
 - **Booking:** `book-a-call` has a single `SCHEDULER SLOT` container ready for a Calendly (or similar) embed.
 - **Accreditations:** CMC badges appear only on the profiles of the individual CMC Registered Mediators. Firm-level wording: "All our mediators are fully trained and accredited, and our lead mediators are also CMC registered." Never imply the firm itself is CMC registered.

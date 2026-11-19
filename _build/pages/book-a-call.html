@@ -27,8 +27,8 @@ priority: 0.9
 <div class="form-panel">
 <h2 style="font-size:var(--step-2)">Choose a time</h2>
 <p class="muted">Pick a day and a rough window and we'll confirm an exact time by email, usually within one working day.</p>
-<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
-     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
+<!-- FORMS: sent through Formspark (submit-form.com) while FORMSPARK_FORM_ID is set in _build/build.py (the build adds
+     the endpoint, a spam trap and a default subject). With no ID it opens the visitor's email app (mailto:). -->
 <form class="form" action="mailto:{{EMAIL}}?subject=Free%2015-minute%20call%20request" method="post" enctype="text/plain"
  data-mailto="{{EMAIL}}" data-form-name="Free 15-minute call (booking page)" data-success="Thank you. We've received your request and will be in touch to arrange your call, usually within one working day." data-subject="Free 15-minute call request: {name}" data-intro="FREE 15-MINUTE CALL REQUEST">
 <div class="form-row">

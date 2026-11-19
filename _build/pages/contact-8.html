@@ -13,8 +13,8 @@ sitemap: no
 <section class="section">
 <div class="wrap split-2">
 <div class="form-panel">
-<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
-     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
+<!-- FORMS: sent through Formspark (submit-form.com) while FORMSPARK_FORM_ID is set in _build/build.py (the build adds
+     the endpoint, a spam trap and a default subject). With no ID it opens the visitor's email app (mailto:). -->
 <form class="form" action="mailto:{{EMAIL}}?subject=Booking%20request" method="post" enctype="text/plain"
  data-mailto="{{EMAIL}}" data-form-name="Booking request form" data-success="Thank you. We've received your booking request and will contact you shortly to discuss your requirements." data-subject="Booking request: {service}" data-intro="BOOKING REQUEST">
 <div class="form-row">

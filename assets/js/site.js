@@ -54,7 +54,7 @@
   });
 
   /* ---------- 2. Forms ----------
-     Everyday forms carry data-formspree once a Formspree ID is set in _build/build.py, and are sent in the
+     Everyday forms carry data-formservice once a Formspark ID is set in _build/build.py, and are sent in the
      background. Until then, and always for the confidential pre-mediation questionnaire, forms carry data-mailto and
      open the visitor's own email app. The pre-mediation questionnaire can also produce a Word document (docx.js). */
   var MAILTO_SOFT_LIMIT = 1900; // some email apps cut off very long mailto links
@@ -197,21 +197,21 @@
     openMail(form, href);
   }
 
-  // Sends a form to Formspree in the background, with readable field names in the email Vestia receives.
-  function sendFormspree(form, onDone) {
-    var data = new FormData();
-    data.append('_subject', fill(form.dataset.subject || 'Website enquiry', form));
-    if (form.dataset.formName) data.append('Form', form.dataset.formName);
+  // Sends a form to Formspark (EU-based) in the background, with readable field names in the email Vestia receives.
+  function sendFormService(form, onDone) {
+    var data = { _email: { subject: fill(form.dataset.subject || 'Website enquiry', form), from: 'Vestia website' } };
+    if (form.dataset.formName) data.Form = form.dataset.formName;
     collectAnswers(form).forEach(function (a) {
       var key = a.name === 'email' ? 'email' : a.label;
-      data.append(key, a.value || '(not given)');
+      data[key] = a.value || '(not given)';
     });
     var trap = form.elements._gotcha;
-    if (trap) data.append('_gotcha', trap.value);
+    if (trap) data._gotcha = trap.value;
     var btns = form.querySelectorAll('button[type=submit]');
     btns.forEach(function (b) { b.disabled = true; });
     setStatus(form, message(['Sending...']));
-    fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+    fetch(form.action, { method: 'POST', body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' } })
       .then(function (res) { if (!res.ok) throw new Error('HTTP ' + res.status); return res.json(); })
       .then(function () {
         setStatus(form, message([form.dataset.success ||
@@ -236,7 +236,7 @@
   }
 
   function submitForm(form, onDone) {
-    if (form.hasAttribute('data-formspree')) sendFormspree(form, onDone);
+    if (form.hasAttribute('data-formservice')) sendFormService(form, onDone);
     else sendMail(form);
   }
 
@@ -261,7 +261,7 @@
     });
   }
 
-  doc.querySelectorAll('form[data-mailto], form[data-formspree]').forEach(function (form) {
+  doc.querySelectorAll('form[data-mailto], form[data-formservice]').forEach(function (form) {
     if (form.id === 'intake-form') return; // handled by the wizard below
     form.setAttribute('novalidate', '');
     form.addEventListener('submit', function (e) {

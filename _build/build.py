@@ -25,10 +25,10 @@ SITE_URL = "https://www.vestiamediation.co.uk"
 # temporary preview can't compete with the live site in Google. Set to False at go-live.
 NOINDEX = True
 BUILD_DATE = "2026-11-17"
-# FORMS: paste the ID from your Formspree form (the part after formspree.io/f/, e.g. "xyzabcde") to send the
-# everyday forms straight to the inbox. Leave empty to keep them opening the visitor's email app. The confidential
-# pre-mediation questionnaire never uses Formspree.
-FORMSPREE_FORM_ID = ""
+# FORMS: the ID of the Formspark form (the part after submit-form.com/). Everyday forms send straight to the inbox
+# through Formspark, an EU-based service. Leave empty to make them open the visitor's email app instead.
+# The confidential pre-mediation questionnaire never uses Formspark.
+FORMSPARK_FORM_ID = "thAKaqCOF"
 
 EMAIL = "enquiries@vestiamediation.co.uk"
 PHONE = "0330 133 5199"
@@ -388,8 +388,8 @@ def booking_block(r):
 <h2 id="book-block-title">Book a free 15-minute call</h2>
 <p>A short, no-obligation chat with one of our mediators, who'll tell you honestly whether mediation suits your dispute.</p>
 </div>
-<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
-     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
+<!-- FORMS: sent through Formspark (submit-form.com) while FORMSPARK_FORM_ID is set in _build/build.py (the build adds
+     the endpoint, a spam trap and a default subject). With no ID it opens the visitor's email app (mailto:). -->
 <form class="book-form" action="mailto:{EMAIL}?subject=Free%2015-minute%20call%20request" method="post" enctype="text/plain"
  data-mailto="{EMAIL}" data-form-name="Free 15-minute call (quick form)" data-success="Thank you. We've received your request and will be in touch to arrange your call, usually within one working day." data-subject="Free 15-minute call request: {{name}}" data-intro="Please contact me to arrange a free 15-minute call.">
 <div class="field"><label for="bb-name">Name</label><input id="bb-name" name="name" type="text" autocomplete="name" required></div>
@@ -518,23 +518,23 @@ def faq_schema(body):
 
 # ---------- Build ----------
 
-def use_formspree(page):
-    """Point every everyday form at Formspree. Forms marked data-keep-email stay on email."""
+def use_form_service(page):
+    """Point every everyday form at Formspark. Forms marked data-keep-email stay on email."""
     def swap(m):
         tag = m.group(0)
         if "data-keep-email" in tag or "data-mailto" not in tag:
             return tag
         name = re.search(r'data-form-name="([^"]*)"', tag)
-        tag = re.sub(r'action="mailto:[^"]*"', f'action="https://formspree.io/f/{FORMSPREE_FORM_ID}"', tag)
-        tag = tag.replace(' enctype="text/plain"', "").replace("data-mailto=", "data-formspree data-email=")
+        tag = re.sub(r'action="mailto:[^"]*"', f'action="https://submit-form.com/{FORMSPARK_FORM_ID}"', tag)
+        tag = tag.replace(' enctype="text/plain"', "").replace("data-mailto=", "data-formservice data-email=")
         subject = "Website form: " + (name.group(1) if name else "enquiry")
-        return (tag + f'\n<input type="hidden" name="_subject" value="{subject}">'
+        return (tag + f'\n<input type="hidden" name="_email.subject" value="{subject}">'
                 '\n<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">')
     return re.sub(r"<form\b[^>]*>", swap, page)
 
 
 def forms_note():
-    if FORMSPREE_FORM_ID:
+    if FORMSPARK_FORM_ID:
         return ("Most of our online forms send your details to us directly. The confidential pre-mediation questionnaire instead creates "
                 "a Word document on your device, or an email in your own email app, so that your answers go only to us. If that "
                 "doesn't work well for you, please email us directly or phone us instead, and we will take the details from you.")
@@ -749,8 +749,8 @@ def build():
 </html>
 """
         page = page.replace("~/", r)
-        if FORMSPREE_FORM_ID:
-            page = use_formspree(page)
+        if FORMSPARK_FORM_ID:
+            page = use_form_service(page)
         out = ROOT / ("index.html" if path == "" else (path + ".html"))
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page, encoding="utf-8")

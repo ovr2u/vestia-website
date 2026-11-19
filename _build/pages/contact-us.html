@@ -30,8 +30,8 @@ priority: 0.8
 </div>
 <div class="form-panel">
 <h2 style="font-size:var(--step-2)">Send us a message</h2>
-<!-- FORMS: sent through Formspree once FORMSPREE_FORM_ID is set in _build/build.py (the build adds the endpoint,
-     a spam trap and a default subject). Until then it opens the visitor's email app (mailto:). -->
+<!-- FORMS: sent through Formspark (submit-form.com) while FORMSPARK_FORM_ID is set in _build/build.py (the build adds
+     the endpoint, a spam trap and a default subject). With no ID it opens the visitor's email app (mailto:). -->
 <form class="form" action="mailto:{{EMAIL}}?subject=Website%20enquiry" method="post" enctype="text/plain"
  data-mailto="{{EMAIL}}" data-form-name="Contact form" data-subject="Website enquiry from {first} {last}">
 <div class="form-row">

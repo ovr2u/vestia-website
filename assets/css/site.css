@@ -454,7 +454,7 @@ html:not(.js) .js-only{display:none!important}
 .link-button:hover{text-decoration-color:currentColor}
 .book-block .link-button{color:var(--cream)}
 form.is-sent [data-step],form.is-sent .wizard-nav,form.is-sent .wizard-progress,form.is-sent .wizard-count{display:none!important}
-form[data-formspree] .if-mailto,form[data-mailto] .if-formspree{display:none}
+form[data-formservice] .if-mailto,form[data-mailto] .if-formservice{display:none}
 button[disabled]{opacity:.6;cursor:progress}
 .form-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:12px}
 .byline img.by-mark{width:34px;height:40px;border-radius:0;object-fit:contain;background:none}

@@ -56,31 +56,26 @@ All the old page addresses (for example `/our-mediators`, `/fees`, `/lucie-anner
 1. Check the site and **send yourself a test email** to confirm email still works.
 2. Only then downgrade or cancel the Wix website plan. If the domain itself was bought through Wix, keep paying for the domain (or transfer it first).
 3. Optional upgrades, each marked in the code with comments:
-   - **Forms:** see "Setting up Formspree" below.
+   - **Forms:** see "Website forms (Formspark)" below.
    - **Booking:** to use Calendly, follow the `SCHEDULER SLOT` comment in `_build/pages/book-a-call.html`. Mention Calendly's cookies in the Privacy Policy.
-   - **Privacy Policy:** the cookies paragraph was copied from the old site. The new site sets no cookies and uses no analytics, so you may want to update it.
 
 Need help? Any developer can follow this guide, and the `README.md` file explains how the site is built.
 
 ---
 
-## Setting up Formspree (everyday forms)
+## Website forms (Formspark)
 
-The booking forms, contact form, booking request form and mediation intake can send straight to your inbox through Formspree. The confidential pre-mediation questionnaire deliberately does **not** use Formspree: it stays on email, with the option to save the answers as a Word document first.
+The booking forms, contact form, booking request form and mediation intake send straight to enquiries@ through **Formspark**, an EU-based service run by Trampoline Software SRL in Belgium. The confidential pre-mediation questionnaire deliberately does **not** use Formspark: it stays on email, with the option to save the answers as a Word document first. A blank Word version is also available on the questionnaire page.
 
-1. Go to **formspree.io** and sign up for the free plan, using **enquiries@vestiamediation.co.uk** as the account email. Click the link in the confirmation email Formspree sends.
-2. Click **+ New Form** (if asked for a project, call it **Vestia Mediation**).
-   - **Form name:** `Vestia website`
-   - **Send emails to:** `enquiries@vestiamediation.co.uk`
-3. Formspree shows the form's address, for example `https://formspree.io/f/abcdwxyz`. The last part (`abcdwxyz`) is the **form ID**. Send it to your developer (or Claude).
-4. Open the form's **Settings** tab:
-   - **Spam protection:** turn **reCAPTCHA off**. The website sends forms in the background, and reCAPTCHA would block them. The site has its own hidden spam trap (a field called `_gotcha`); if Formspree asks for a honeypot field name, enter `_gotcha`.
-   - **Email notifications:** leave on.
-   - **Restrict to domain** (if your plan offers it): leave empty while testing on the preview. After go-live, set it to `vestiamediation.co.uk`.
-   - Leave **redirect** settings empty: the website shows its own thank-you message.
-5. Once the ID is in the site, send a test from the footer booking form on the preview and check it arrives. If Formspree emails you asking to confirm the form, click the link.
+The website is already connected to the Formspark form called **Vestia website** (form ID `thAKaqCOF`). The "How-to" page in Formspark's dashboard, with the endpoint and the sample HTML form, is for developers and has already been done. You don't need to copy anything from it.
 
-**Good to know:** at the time of writing, Formspree's free plan covers 50 submissions a month across all forms, keeps submissions for about 30 days, and doesn't include automatic replies to the sender. You'll get emails as you approach the limit. Formspree is a US company, so mention it in the Privacy Policy.
+In the Formspark dashboard, check these settings on the **Vestia website** form:
+1. **Notifications:** email notifications are switched on and go to **enquiries@vestiamediation.co.uk**.
+2. **Spam protection:** the site has a hidden spam trap called `_gotcha`, which Formspark recognises. You don't need Botpoison or a captcha.
+3. **Redirect:** leave empty. The website shows its own thank-you message.
 
-**For a developer:** the ID goes in `FORMSPREE_FORM_ID` near the top of `_build/build.py`. Run `python3 _build/build.py` and push. Leaving it empty keeps the forms on the visitor's email app.
+Then send a test from the footer booking form on the preview and check it arrives.
 
+**Good to know:** each submission email has a clear subject, such as "Free 15-minute call request: Sam Example", and lists every answer with a readable label. If Formspark is ever unavailable, the form offers to send the message by email instead.
+
+**For a developer:** the form ID lives in `FORMSPARK_FORM_ID` near the top of `_build/build.py`. Run `python3 _build/build.py` and push. Leave it empty to make the forms open the visitor's email app instead. After changing the questionnaire's questions, run `node _build/questionnaire-docx.mjs` to regenerate the blank Word version.

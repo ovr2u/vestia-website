@@ -89,7 +89,7 @@ footer{margin-top:22pt;padding-top:8pt;border-top:0.75pt solid #D9C7B3;text-alig
 <p>We are also able to offer Associate Mediator rates starting from £300 plus VAT per party for a half-day mediation.</p>
 <p>Our published fees give you certainty, with flexibility built in. Value and complexity don't always go together: a high-value claim can be straightforward, and some disputes need a bespoke solution the table doesn't price. We're always open to discussing fees.</p>
 <h2>Facilitating transactions and projects</h2>
-<p>Indicative fees: half-day session from £800 + VAT per party; full-day session from £1,200 + VAT per party; shorter or ongoing involvement from £150 + VAT per hour per party. We will agree a quote with you before any work starts.</p>
+<p>Read-in fee (documents up to 250 pages): £450 + VAT per party. Basic fee, covering meetings and calls of up to 4 hours in total: £525 + VAT per party for transactions under £2 million, £900 + VAT for £2 million to £5 million, £1,200 + VAT for £5 million to £10 million, and price on request over £10 million. Additional hours: £105 + VAT per hour per party (transactions under £2 million). We will agree a quote with you before any work starts.</p>
 <h2>Payment</h2>
 <p>Basic fees must be paid in full at least seven working days in advance of the mediation day unless otherwise agreed.</p>
 <h2>In-person mediations</h2>
