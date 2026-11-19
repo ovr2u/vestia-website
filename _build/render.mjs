@@ -58,18 +58,18 @@ p{font-size:25px;color:#3A3A3A;line-height:1.4}
 
 const feesPdf = `<!doctype html><html><head><style>${FONT}
 @page{size:A4;margin:14mm 16mm 12mm}
-body{font-size:10pt;line-height:1.45}
+body{font-size:9.5pt;line-height:1.4}
 header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.5pt solid #D9C7B3;padding-bottom:10pt;margin-bottom:16pt}
 header img{width:150pt}
 header .t{text-align:right}
 h1{font-weight:400;font-size:22pt;letter-spacing:.02em}
 header .t p{color:#655E55;font-size:9.5pt;letter-spacing:.14em;text-transform:uppercase}
 table{width:100%;border-collapse:collapse;margin:4pt 0 16pt;font-size:10pt}
-th,td{text-align:left;vertical-align:top;padding:8pt 8pt;border:0.75pt solid #D9C7B3}
+th,td{text-align:left;vertical-align:top;padding:6pt 8pt;border:0.75pt solid #D9C7B3}
 thead th{background:#3A3A3A;color:#F9F6F2;font-weight:700}
 tbody th{font-weight:700;width:26%;background:#F9F6F2}
 .per{display:block;color:#655E55;font-size:8.5pt}
-h2{font-size:12pt;font-weight:700;margin:14pt 0 4pt;letter-spacing:.03em}
+h2{font-size:11pt;font-weight:700;margin:10pt 0 3pt;letter-spacing:.03em}
 p{margin:0 0 6pt}
 ul{margin:0 0 6pt;padding-left:14pt}
 li{margin-bottom:3pt}
@@ -87,6 +87,9 @@ footer{margin-top:22pt;padding-top:8pt;border-top:0.75pt solid #D9C7B3;text-alig
 <p>Fees include all preparation and administration time, including any preliminary meetings in advance of the mediation day.</p>
 <p>A full day is 8 hours; a half day is 4 hours (the mediation is deemed to run continuously with no deduction made for lunch).</p>
 <p>We are also able to offer Associate Mediator rates starting from £300 plus VAT per party for a half-day mediation.</p>
+<p>Our published fees give you certainty, with flexibility built in. Value and complexity don't always go together: a high-value claim can be straightforward, and some disputes need a bespoke solution the table doesn't price. We're always open to discussing fees.</p>
+<h2>Facilitating transactions and projects</h2>
+<p>Indicative fees: half-day session from £800 + VAT per party; full-day session from £1,200 + VAT per party; shorter or ongoing involvement from £150 + VAT per hour per party. We will agree a quote with you before any work starts.</p>
 <h2>Payment</h2>
 <p>Basic fees must be paid in full at least seven working days in advance of the mediation day unless otherwise agreed.</p>
 <h2>In-person mediations</h2>

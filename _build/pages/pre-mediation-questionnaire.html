@@ -1,0 +1,181 @@
+---
+title: Confidential Pre-Mediation Questionnaire | Vestia Mediation
+description: For parties with a mediation booked: tell your mediator about the dispute, what matters to you and anything they should know. Confidential to the mediator.
+nav: none
+h1: Pre-mediation questionnaire
+crumb: Pre-mediation questionnaire
+eyebrow: For parties with a mediation booked
+lead: Each party completes this before the mediation day. It gives your mediator a head start: what has happened, what matters to you, and anything that would help them run the day well.
+priority: 0.3
+extra_js: docx
+---
+<section class="section">
+<div class="wrap narrow">
+
+<div class="notice notice--confidential" role="note" aria-labelledby="conf-title">
+<h2 id="conf-title">Confidential to the mediator. Without prejudice.</h2>
+<p>All information you provide is confidential and will only be shared with the mediator. We will not pass it to the other side, or to anyone else, without your permission, except where our <a href="~/mediation-agreement">Mediation Agreement</a> allows it (for example, where the law requires disclosure). It is also without prejudice: it can't be referred to or relied on in court if the dispute doesn't settle, unless it would have been admissible anyway.</p>
+</div>
+
+<p class="note">Take your time. Short answers are fine, and you can leave out anything you'd rather discuss with the mediator directly. Questions marked as optional can be skipped. If you're a solicitor completing this for a client, please answer for your client.</p>
+<p class="note">When you've finished, you can save your answers as a Word document and attach it to an email to us, or send them in the body of an email. Either way, nothing is stored on this website: your answers go only from your own device to our inbox. Email isn't encrypted end to end, so if you'd prefer another way to send this, or need to send documents securely, <a href="mailto:{{EMAIL}}?subject=Secure%20document%20transfer">ask us</a> and we'll arrange it.</p>
+
+<div class="form-panel" style="margin-top:26px">
+<!-- PRE-MEDIATION QUESTIONNAIRE: deliberately kept off Formspree so confidential answers go straight from the visitor's
+     device to Vestia's inbox. Visitors can download a Word document (built in their browser by assets/js/docx.js) and
+     attach it to an email, or send the answers in the body of an email (mailto:). data-keep-email stops the build
+     script switching this form to Formspree. Questions follow Vestia's own Pre-Mediation Questionnaire. -->
+<form class="form" data-keep-email action="mailto:{{EMAIL}}?subject=CONFIDENTIAL%20pre-mediation%20questionnaire" method="post" enctype="text/plain"
+ data-mailto="{{EMAIL}}" data-subject="CONFIDENTIAL: pre-mediation questionnaire from {name}"
+ data-intro="CONFIDENTIAL TO THE MEDIATOR. WITHOUT PREJUDICE.&#10;Pre-mediation questionnaire (Vestia Mediation)">
+
+<div data-section="About you">
+<h2 style="font-size:var(--step-2)">1. About you</h2>
+<div class="form-row">
+<div class="field"><label for="pm-name">Full name</label><input id="pm-name" name="name" type="text" autocomplete="name" required></div>
+<div class="field"><label for="pm-org">Organisation <span class="opt">(if applicable)</span></label><input id="pm-org" name="organisation" type="text" autocomplete="organization" data-label="Organisation"></div>
+</div>
+<fieldset>
+<legend>Your role in the dispute</legend>
+<div class="choices">
+<label class="choice"><input type="radio" name="role" value="Claimant or applicant" data-label="Role in the dispute" required><span>Claimant or applicant</span></label>
+<label class="choice"><input type="radio" name="role" value="Defendant or respondent"><span>Defendant or respondent</span></label>
+<label class="choice"><input type="radio" name="role" value="Landlord"><span>Landlord</span></label>
+<label class="choice"><input type="radio" name="role" value="Tenant"><span>Tenant</span></label>
+<label class="choice"><input type="radio" name="role" value="Other"><span>Other</span></label>
+</div>
+</fieldset>
+<div class="field"><label for="pm-role-other">If other, please give details <span class="opt">(optional)</span></label><input id="pm-role-other" name="roleother" type="text" data-label="Role details"></div>
+<div class="form-row">
+<div class="field"><label for="pm-email">Email</label><input id="pm-email" name="email" type="email" autocomplete="email" required></div>
+<div class="field"><label for="pm-phone">Phone <span class="opt">(optional)</span></label><input id="pm-phone" name="phone" type="tel" autocomplete="tel"></div>
+</div>
+<div class="field"><label for="pm-relationship">Your relationship to the other party <span class="opt">(optional)</span></label>
+<span class="hint" id="pm-relationship-hint">For example landlord and tenant, neighbours, business partners or family members.</span>
+<input id="pm-relationship" name="relationship" type="text" aria-describedby="pm-relationship-hint" data-label="Relationship to the other party"></div>
+<div class="form-row">
+<div class="field"><label for="pm-rep">Your representative, and their firm <span class="opt">(if applicable)</span></label><input id="pm-rep" name="rep" type="text" data-label="Representative"></div>
+<div class="field"><label for="pm-rep-email">Representative's email <span class="opt">(if applicable)</span></label><input id="pm-rep-email" name="repemail" type="email" data-label="Representative's email"></div>
+</div>
+</div>
+
+<div class="form-section" data-section="The mediation">
+<h2>2. The mediation</h2>
+<div class="form-row">
+<div class="field"><label for="pm-date">Date of the mediation <span class="opt">(if confirmed)</span></label><input id="pm-date" name="date" type="date" data-label="Mediation date"></div>
+<div class="field"><label for="pm-mediator">Your mediator</label>
+<select id="pm-mediator" name="mediator" data-label="Mediator">
+<option>Not sure</option>
+<option>Lucie-Anne Rhodes</option>
+<option>Claudia Haisman-Green</option>
+<option>Gurprit Mattu</option>
+<option>Amy Kaur</option>
+</select></div>
+</div>
+<div class="field"><label for="pm-dates">Preferred dates or times <span class="opt">(if not yet confirmed)</span></label>
+<span class="hint" id="pm-dates-hint">Evenings and weekends are possible on request.</span>
+<input id="pm-dates" name="dates" type="text" aria-describedby="pm-dates-hint" data-label="Preferred dates or times"></div>
+<div class="field"><label for="pm-format">Preferred format and location <span class="opt">(if not yet confirmed)</span></label>
+<span class="hint" id="pm-format-hint">Online, in person or hybrid, and where, if in person.</span>
+<input id="pm-format" name="format" type="text" aria-describedby="pm-format-hint" data-label="Preferred format and location"></div>
+<div class="field"><label for="pm-attend">Who will attend on your side? <span class="opt">(optional)</span></label>
+<span class="hint" id="pm-attend-hint">Names and roles, including anyone coming to support you. Everyone attending needs to be named in advance.</span>
+<textarea id="pm-attend" name="attending" rows="2" aria-describedby="pm-attend-hint" data-label="Attending on our side"></textarea></div>
+<div class="form-row">
+<div class="field"><label for="pm-authority">Who will have authority to settle on the day? <span class="opt">(optional)</span></label><input id="pm-authority" name="authority" type="text" data-label="Authority to settle"></div>
+<div class="field"><label for="pm-approval">Does anyone else need to approve a settlement? <span class="opt">(optional)</span></label>
+<input id="pm-approval" name="approval" type="text" data-label="Outside approval needed" placeholder="For example: insurer, board, funder"></div>
+</div>
+</div>
+
+<div class="form-section" data-section="The dispute">
+<h2>3. The dispute</h2>
+<div class="field"><label for="pm-nature">Nature of the dispute</label>
+<span class="hint" id="pm-nature-hint">A line is enough, for example "dilapidations claim at the end of a commercial lease".</span>
+<input id="pm-nature" name="nature" type="text" aria-describedby="pm-nature-hint" data-label="Nature of the dispute" required></div>
+<div class="field"><label for="pm-background">Background and key facts</label>
+<span class="hint" id="pm-background-hint">What has happened, in your own words. A few paragraphs is plenty.</span>
+<textarea id="pm-background" name="background" rows="7" aria-describedby="pm-background-hint" data-label="Background and key facts" required></textarea></div>
+<div class="form-row">
+<div class="field"><label for="pm-value">Amount or value in dispute <span class="opt">(if known)</span></label><input id="pm-value" name="value" type="text" data-label="Amount or value in dispute"></div>
+<div class="field"><label for="pm-stage">Status of any legal proceedings</label>
+<select id="pm-stage" name="stage" data-label="Legal proceedings">
+<option>No proceedings</option>
+<option>Pre-action correspondence only</option>
+<option>Proceedings issued in a court or tribunal</option>
+<option>A hearing or trial date has been set</option>
+</select></div>
+</div>
+<div class="field"><label for="pm-keydates">Key dates or deadlines <span class="opt">(optional)</span></label><input id="pm-keydates" name="keydates" type="text" data-label="Key dates"></div>
+</div>
+
+<div class="form-section" data-section="Your position and interests">
+<h2>4. Your position and what matters to you</h2>
+<div class="field"><label for="pm-position">What outcome are you seeking, and what do you believe should happen?</label>
+<span class="hint" id="pm-position-hint">Include anything that isn't about money, such as an apology, a timetable for works, or keeping a working relationship.</span>
+<textarea id="pm-position" name="position" rows="5" aria-describedby="pm-position-hint" data-label="Position and outcome sought" required></textarea></div>
+<div class="field"><label for="pm-interests">What matters most to you underneath that?</label>
+<span class="hint" id="pm-interests-hint">The needs or concerns driving your position, for example financial security, reputation, certainty, or an ongoing relationship.</span>
+<textarea id="pm-interests" name="interests" rows="4" aria-describedby="pm-interests-hint" data-label="Underlying interests" required></textarea></div>
+<div class="field"><label for="pm-issues">Key issues to resolve, most important first <span class="opt">(optional)</span></label>
+<textarea id="pm-issues" name="issues" rows="4" data-label="Key issues, in order of priority"></textarea></div>
+</div>
+
+<div class="form-section" data-section="Previous attempts to resolve it">
+<h2>5. Previous attempts to resolve it</h2>
+<p>This section stays with the mediator.</p>
+<div class="field"><label for="pm-offers">Offers made or received <span class="opt">(optional)</span></label>
+<span class="hint" id="pm-offers-hint">Amounts, terms and dates if you have them.</span>
+<textarea id="pm-offers" name="offers" rows="3" aria-describedby="pm-offers-hint" data-label="Offers made or received"></textarea></div>
+<div class="field"><label for="pm-attempts">Previous attempts at resolution <span class="opt">(optional)</span></label>
+<span class="hint" id="pm-attempts-hint">For example direct negotiation, solicitors' correspondence or a previous mediation.</span>
+<textarea id="pm-attempts" name="attempts" rows="3" aria-describedby="pm-attempts-hint" data-label="Previous attempts at resolution"></textarea></div>
+<div class="field"><label for="pm-sticking">What has prevented resolution so far? <span class="opt">(optional)</span></label>
+<textarea id="pm-sticking" name="sticking" rows="3" data-label="Sticking points"></textarea></div>
+</div>
+
+<div class="form-section" data-section="Outcomes">
+<h2>6. Outcomes</h2>
+<p>Also for the mediator only. You don't have to answer these now if you'd rather talk them through.</p>
+<div class="field"><label for="pm-acceptable">What would you be willing to accept as a reasonable compromise? <span class="opt">(optional)</span></label>
+<textarea id="pm-acceptable" name="acceptable" rows="3" data-label="Acceptable compromise"></textarea></div>
+<div class="field"><label for="pm-dealbreakers">Are there any terms you could not accept? <span class="opt">(optional)</span></label>
+<textarea id="pm-dealbreakers" name="dealbreakers" rows="3" data-label="Deal breakers"></textarea></div>
+</div>
+
+<div class="form-section" data-section="For the mediator">
+<h2>7. Anything the mediator should know</h2>
+<fieldset>
+<legend>Are you comfortable meeting the other side in a joint session?</legend>
+<span class="hint">Many mediations happen mostly or entirely in separate rooms. There's no wrong answer.</span>
+<div class="choices">
+<label class="choice"><input type="radio" name="joint" value="Yes" data-label="Comfortable with a joint session"><span>Yes</span></label>
+<label class="choice"><input type="radio" name="joint" value="I'd prefer not to"><span>I'd prefer not to</span></label>
+<label class="choice"><input type="radio" name="joint" value="Not sure, happy to discuss" checked><span>Not sure, happy to discuss</span></label>
+</div>
+</fieldset>
+<div class="field"><label for="pm-access">Accessibility needs or other requirements <span class="opt">(optional)</span></label>
+<span class="hint" id="pm-access-hint">Interpreters (including BSL), extra breaks, venue access, large print or anything else that would help.</span>
+<textarea id="pm-access" name="access" rows="3" aria-describedby="pm-access-hint" data-label="Accessibility needs or other requirements"></textarea></div>
+<div class="field"><label for="pm-know">Anything else the mediator should know before the mediation day <span class="opt">(optional)</span></label>
+<span class="hint" id="pm-know-hint">For example tensions between the people involved, topics to avoid in a joint session, health or wellbeing concerns, or any worries about safety.</span>
+<textarea id="pm-know" name="know" rows="4" aria-describedby="pm-know-hint" data-label="Anything else the mediator should know"></textarea></div>
+</div>
+
+<div class="form-section" data-section="Documents and consent">
+<h2>8. Documents and consent</h2>
+<div class="field"><label for="pm-docs">Which documents are essential reading for the mediator? <span class="opt">(optional)</span></label>
+<span class="hint" id="pm-docs-hint">For example correspondence, contracts, leases or court documents. Please send copies separately by email. If you'd like to prepare a short mediation summary you're welcome to, but it isn't essential.</span>
+<textarea id="pm-docs" name="documents" rows="3" aria-describedby="pm-docs-hint" data-label="Key documents"></textarea></div>
+<label class="check" for="pm-consent"><input id="pm-consent" name="consent" type="checkbox" data-label="Consent to processing personal data for this mediation" required><span>I / we agree to the processing and storage of personal data as necessary to organise and conduct this mediation (see our <a href="~/privacy">Privacy Policy</a>). Consent is required to enable us to proceed.</span></label>
+<div class="form-actions">
+<button class="btn btn-primary js-only" type="submit" data-action="docx">Save as a Word document</button>
+<button class="btn btn-secondary" type="submit" data-action="email"><span class="js-only">Send in an email instead</span><span class="no-js-only">Send by email</span></button>
+</div>
+<p class="hint js-only" style="margin-top:12px">Saving creates a Word document on your device. We'll then open an email to us for you to attach it to.</p>
+<p class="form-status" role="status" aria-live="polite"></p>
+</div>
+</form>
+</div>
+</div>
+</section>

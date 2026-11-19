@@ -1,6 +1,6 @@
 /* Vestia Mediation: small progressive-enhancement script. No frameworks, no tracking.
    1. Mobile menu and Services submenu
-   2. Mailto forms (booking block, contact, booking request, pre-mediation form, booking page)
+   2. Mailto forms (booking block, contact, booking request, pre-mediation questionnaire, booking page)
    3. Mediation intake wizard
    Every form still works without JavaScript: it falls back to a plain mailto: submit. */
 (function () {
@@ -55,8 +55,8 @@
 
   /* ---------- 2. Forms ----------
      Everyday forms carry data-formspree once a Formspree ID is set in _build/build.py, and are sent in the
-     background. Until then, and always for the confidential pre-mediation form, forms carry data-mailto and
-     open the visitor's own email app. The pre-mediation form can also produce a Word document (docx.js). */
+     background. Until then, and always for the confidential pre-mediation questionnaire, forms carry data-mailto and
+     open the visitor's own email app. The pre-mediation questionnaire can also produce a Word document (docx.js). */
   var MAILTO_SOFT_LIMIT = 1900; // some email apps cut off very long mailto links
   var PHONE = '0330 133 5199';
 
@@ -87,7 +87,8 @@
       if (!el.name || el.name.charAt(0) === '_' || el.type === 'submit' || el.type === 'button' ||
           el.type === 'hidden' || el.dataset.skip !== undefined) return;
       var sec = el.closest('[data-section]');
-      var item = { section: sec ? sec.dataset.section : '', label: labelFor(el), question: labelFor(el, true),
+      var item = { section: sec ? sec.dataset.section : '', label: labelFor(el),
+        question: el.type === 'checkbox' && el.dataset.label ? el.dataset.label : labelFor(el, true),
         name: el.name, long: el.tagName === 'TEXTAREA' };
       if (el.type === 'radio' || el.type === 'checkbox') {
         if (seen[el.name]) return;
@@ -239,7 +240,7 @@
     else sendMail(form);
   }
 
-  // Confidential pre-mediation form: download a Word document, then open an email to attach it to.
+  // Confidential pre-mediation questionnaire: download a Word document, then open an email to attach it to.
   function sendDocx(form) {
     var name = (form.elements.name && form.elements.name.value.trim()) || 'party';
     var email = form.dataset.mailto;
@@ -250,7 +251,7 @@
       logoUrl: logo ? logo.src : null
     }).then(function (filename) {
       var href = mailtoHref(email, fill(form.dataset.subject, form),
-        'Dear Vestia,\n\nPlease find attached my completed pre-mediation information form.\n\nKind regards,\n' + name);
+        'Dear Vestia,\n\nPlease find attached my completed pre-mediation questionnaire.\n\nKind regards,\n' + name);
       setStatus(form, message(['Your answers have been saved as "' + filename + '" (check your downloads). Next, ',
         ['open an email to Vestia', '', function () { openMail(form, href); }],
         ' and attach the document before you press send.']), 'ok');

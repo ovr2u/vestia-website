@@ -27,15 +27,14 @@ NOINDEX = True
 BUILD_DATE = "2026-11-17"
 # FORMS: paste the ID from your Formspree form (the part after formspree.io/f/, e.g. "xyzabcde") to send the
 # everyday forms straight to the inbox. Leave empty to keep them opening the visitor's email app. The confidential
-# pre-mediation form never uses Formspree.
+# pre-mediation questionnaire never uses Formspree.
 FORMSPREE_FORM_ID = ""
 
 EMAIL = "enquiries@vestiamediation.co.uk"
 PHONE = "0330 133 5199"
 PHONE_TEL = "+443301335199"
 LINKEDIN = "https://www.linkedin.com/company/vestiamediation"
-TRUST_LINE = ("Our mediators are accredited by CEDR and the Society of Mediators, "
-              "and the team includes CMC Registered Mediators 2026.")
+TRUST_LINE = ("All our mediators are fully trained and accredited, and our lead mediators are also CMC registered.")
 LEGAL = ("Vestia Mediation is a trading name of Concibrium Limited, a company registered in England and "
          "Wales (Company No. 16043891). Registered office: Gw 522, 5th Floor, The Grange, 100 High Street, "
          "London, N14 6BN.")
@@ -177,6 +176,8 @@ NAV = [
 ]
 
 REDIRECTS = {
+    # Earlier preview address of the pre-mediation questionnaire.
+    "pre-mediation-form": "pre-mediation-questionnaire",
     # Old Wix slug that now 404s on the live site; send visitors to the article's indexed URL.
     "post/understanding-mediation": "post/understanding-mediation-a-client-centered-approach",
 }
@@ -415,7 +416,7 @@ def footer(r):
 </div>
 <div><h2>Mediation</h2>{ul([("our-services", "Our Services"), ("property-specialisms", "Property Specialisms"), ("other-specialisms", "Other Specialisms"), ("fees", "Fees"), ("for-solicitors", "For Solicitors")])}</div>
 <div><h2>About</h2>{ul([("about-us", "About Us"), ("our-mediators", "Our Mediators"), ("insights", "Insights"), ("faqs", "FAQs"), ("contact-us", "Contact Us")])}</div>
-<div><h2>Get started</h2>{ul([("book-a-call", "Book a free 15-minute call"), ("start-your-mediation", "Start your mediation"), ("pre-mediation-form", "Pre-mediation information form")])}
+<div><h2>Get started</h2>{ul([("book-a-call", "Book a free 15-minute call"), ("start-your-mediation", "Start your mediation"), ("pre-mediation-questionnaire", "Pre-mediation questionnaire")])}
 <h2 style="margin-top:22px">Documents</h2>{ul([("mediation-agreement", "Mediation Agreement"), ("complaints-policy", "Complaints Policy"), ("accessibility", "Accessibility Statement"), ("privacy", "Privacy Policy")])}</div>
 </div>
 <p class="footer-trust">{TRUST_LINE}</p>
@@ -534,11 +535,11 @@ def use_formspree(page):
 
 def forms_note():
     if FORMSPREE_FORM_ID:
-        return ("Most of our online forms send your details to us directly. The confidential pre-mediation form instead creates "
+        return ("Most of our online forms send your details to us directly. The confidential pre-mediation questionnaire instead creates "
                 "a Word document on your device, or an email in your own email app, so that your answers go only to us. If that "
                 "doesn't work well for you, please email us directly or phone us instead, and we will take the details from you.")
     return ("Our online forms currently send your details by opening your own email app with the message already written. "
-            "The confidential pre-mediation form can also create a Word document on your device for you to attach to an email. "
+            "The confidential pre-mediation questionnaire can also create a Word document on your device for you to attach to an email. "
             "If that doesn't work well for you, please email us directly or phone us instead, and we will take the details from you.")
 
 

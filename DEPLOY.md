@@ -66,7 +66,7 @@ Need help? Any developer can follow this guide, and the `README.md` file explain
 
 ## Setting up Formspree (everyday forms)
 
-The booking forms, contact form, booking request form and mediation intake can send straight to your inbox through Formspree. The confidential pre-mediation form deliberately does **not** use Formspree: it stays on email, with the option to save the answers as a Word document first.
+The booking forms, contact form, booking request form and mediation intake can send straight to your inbox through Formspree. The confidential pre-mediation questionnaire deliberately does **not** use Formspree: it stays on email, with the option to save the answers as a Word document first.
 
 1. Go to **formspree.io** and sign up for the free plan, using **enquiries@vestiamediation.co.uk** as the account email. Click the link in the confirmation email Formspree sends.
 2. Click **+ New Form** (if asked for a project, call it **Vestia Mediation**).

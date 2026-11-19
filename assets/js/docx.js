@@ -1,4 +1,4 @@
-/* Vestia Mediation: turns the pre-mediation form into a branded Word document (.docx) in the visitor's
+/* Vestia Mediation: turns the pre-mediation questionnaire into a branded Word document (.docx) in the visitor's
    browser. Nothing is uploaded anywhere: the file is built on the visitor's own device and downloaded.
    A .docx is a ZIP of XML files, so this script writes the XML and packs it with a small ZIP writer.
    Used by site.js as window.VestiaDocx.download(answers, { name, logoUrl }). */
@@ -63,7 +63,7 @@
   function documentXml(answers, opts, logo) {
     var body = [];
     if (logo) body.push(para('Logo', image('rIdLogo', logo.cx, logo.cy)));
-    body.push(para('Title', run('Pre-mediation information form')));
+    body.push(para('Title', run('Pre-mediation questionnaire')));
     body.push(para('Confidential', run('CONFIDENTIAL TO THE MEDIATOR. WITHOUT PREJUDICE.')));
     var confirmed = answers.some(function (a) { return a.section === 'Confirmation' && a.value === 'Yes'; });
     body.push(para('Intro', run('Completed by ' + opts.name + ' on ' + opts.dateText +
@@ -171,7 +171,7 @@
       '<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" ' +
       'xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" ' +
       'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' +
-      '<dc:title>Pre-mediation information form (' + esc(opts.name) + ')</dc:title>' +
+      '<dc:title>Pre-mediation questionnaire (' + esc(opts.name) + ')</dc:title>' +
       '<dc:creator>' + esc(opts.name) + '</dc:creator>' +
       '<dc:description>Confidential to the mediator. Without prejudice.</dc:description>' +
       '<dcterms:created xsi:type="dcterms:W3CDTF">' + now + '</dcterms:created>' +
@@ -265,7 +265,7 @@
   function download(answers, opts) {
     return build(answers, opts).then(function (blob) {
       var safe = opts.name.replace(/[\\/:*?"<>|]+/g, '').trim().slice(0, 60) || 'party';
-      var filename = 'Pre-mediation information (' + safe + ').docx';
+      var filename = 'Pre-mediation questionnaire (' + safe + ').docx';
       var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
       a.href = url; a.download = filename;
