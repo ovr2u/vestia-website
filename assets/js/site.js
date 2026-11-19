@@ -179,11 +179,15 @@
     window.location.href = href;
   }
 
+  function mailBody(form) {
+    var intro = form.dataset.intro ? form.dataset.intro + '\n\n' : '';
+    return intro + formToText(form, { email: true }) + '\n\nSent from vestiamediation.co.uk';
+  }
+
   function sendMail(form) {
     var email = form.dataset.mailto || form.dataset.email;
     var subject = fill(form.dataset.subject || 'Website enquiry', form);
-    var intro = form.dataset.intro ? form.dataset.intro + '\n\n' : '';
-    var full = intro + formToText(form, { email: true }) + '\n\nSent from vestiamediation.co.uk';
+    var full = mailBody(form);
     var href = mailtoHref(email, subject, full);
     var result;
     if (href.length > MAILTO_SOFT_LIMIT) {
@@ -300,22 +304,23 @@
     actions.push({ label: 'Back to the form', quiet: true });
     popup({ title: 'Send your answers', returnFocus: returnTo, actions: actions,
       text: canSave
-        ? 'Send by email opens a new email to Vestia in your own email app, with your answers already filled in. Or save them as a Word document to attach to an email yourself, which also gives you a copy to keep.'
+        ? 'Send by email opens a new email to Vestia with your answers written out in it, ready to send. Or save them as a Word document to attach to an email yourself, which also gives you a copy to keep.'
         : 'This opens a new email to Vestia in your own email app, with your answers already filled in.' });
   }
 
+  // The answers go in the text of the email. A website can't attach a file to an email, so the Word document is the
+  // route for anyone who wants an attachment (or a copy to keep).
   function emailAnswers(form, returnTo) {
     var email = form.dataset.mailto;
-    sendMail(form).then(function (r) {
-      var text = ['A new email to Vestia should now be open, with our address, the subject and your answers filled in. Please check it and press send.'];
-      if (r.long) text.push(r.copied
-        ? 'Because your answers are long, some email apps shorten them, so we\'ve also copied everything. If anything is missing from the email, paste it in.'
-        : 'Because your answers are long, some email apps shorten them, so please check nothing is missing before you send.');
-      text.push('If no email opened, email us at ' + email + ' or call ' + PHONE + '.');
-      var actions = [{ label: 'Back to the form' }];
-      if (window.VestiaDocx) actions.push({ label: 'Save as a Word document', run: function () { saveDocx(form, returnTo); } });
-      popup({ kind: 'ok', title: 'Check your email app', text: text, returnFocus: returnTo, actions: actions });
-    });
+    openMail(form, mailtoHref(email, fill(form.dataset.subject, form), mailBody(form)));
+    setStatus(form, message(['Your email to Vestia should now be open, ready to send.'].concat(contactFallback(email))), 'ok');
+    var canSave = !!window.VestiaDocx;
+    var actions = [{ label: 'Back to the form' }];
+    if (canSave) actions.push({ label: 'Save as a Word document', run: function () { saveDocx(form, returnTo); } });
+    popup({ kind: 'ok', title: 'Check your email', returnFocus: returnTo, actions: actions,
+      text: ['Your email to Vestia should now be open, ready to send.',
+        canSave ? 'If it didn\'t open, save your answers as a Word document instead and email it to ' + email + '.'
+                : 'If it didn\'t open, email us at ' + email + ' or call ' + PHONE + '.'] });
   }
 
   function saveDocx(form, returnTo) {
@@ -334,7 +339,7 @@
         ' and attach the document before you press send.']), 'ok');
       popup({ kind: 'ok', title: 'Your document is saved', returnFocus: returnTo,
         text: ['We\'ve saved your answers as "' + filename + '" in your downloads.',
-          'To send it, open an email to Vestia and attach the document before you press send. The button below starts the email for you.'],
+          'To send it, attach it to an email to ' + email + '. The button below starts the email for you.'],
         actions: [{ label: 'Open an email to Vestia', run: function () { openMail(form, href); } }, { label: 'Back to the form' }] });
     }, function () {
       setStatus(form, message(['Sorry, we couldn\'t create the document in this browser. Please ',
