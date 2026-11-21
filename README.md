@@ -28,7 +28,7 @@ Writing style for all copy: UK English, no em or en dashes, plain and specific.
 
 ## Things to know
 
-- **Pre-launch noindex:** `NOINDEX = True` in `_build/build.py` adds a robots `noindex` tag to every page. Set it to `False` and rebuild at go-live.
+- **Noindex switch:** the site went live on 21 November 2026 with `NOINDEX = False` in `_build/build.py`. Setting it to `True` adds a robots `noindex` tag to every page (only for a future preview copy). The 404 page is always noindex.
 - **Forms:** `FORMSPARK_FORM_ID` in `_build/build.py` sends the everyday forms through Formspark (EU-based); the build adds the endpoint, a `_gotcha` spam trap and a default subject, and `site.js` sends them in the background as JSON with readable field names. Leave it empty and they open the visitor's email app. All forms still work without JavaScript.
 - **Pre-mediation questionnaire:** always stays on email (`data-keep-email`). "Send my answers" lets the visitor choose: open a new email in their own email app with the answers filled in, or save a branded Word document (built in their browser by `assets/js/docx.js`, nothing uploaded) to attach to an email. Nothing downloads unless they choose to save.
 - **Booking:** `book-a-call` has a single `SCHEDULER SLOT` container ready for a Calendly (or similar) embed.

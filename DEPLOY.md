@@ -42,7 +42,7 @@ Changes usually take effect within an hour but can take up to 48 hours. Then go 
 
 ## 4. Let Google index the new site (important)
 
-While the site was a preview, every page told Google "don't index me". At go-live you must remove that, or the new site will drop out of Google.
+While the site was a preview, every page told Google "don't index me". At go-live you must remove that, or the new site will drop out of Google. **Done on 21 November 2026.**
 
 - **Simplest:** ask your developer (or Claude) to "set `NOINDEX = False` in `_build/build.py`, rebuild and push".
 - **By hand:** in every `.html` file, delete the line `<meta name="robots" content="noindex">` and the comment line above it marked `PRE-LAUNCH`.

@@ -1,5 +1,4 @@
 # Vestia Mediation
-# Until go-live every page also carries a temporary "noindex" tag (see DEPLOY.md).
 User-agent: *
 Allow: /
 Disallow: /_build/

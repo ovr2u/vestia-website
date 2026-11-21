@@ -21,10 +21,10 @@ ROOT = Path(__file__).resolve().parent.parent
 PAGES = ROOT / "_build" / "pages"
 
 SITE_URL = "https://www.vestiamediation.co.uk"
-# PRE-LAUNCH: True adds <meta name="robots" content="noindex"> to every page so the
-# temporary preview can't compete with the live site in Google. Set to False at go-live.
-NOINDEX = True
-BUILD_DATE = "2026-11-17"
+# True adds <meta name="robots" content="noindex"> to every page, to keep a preview out of Google.
+# Live since 21 November 2026, so False. (The 404 page is always noindex.)
+NOINDEX = False
+BUILD_DATE = "2026-11-21"
 # FORMS: the ID of the Formspark form (the part after submit-form.com/). Everyday forms send straight to the inbox
 # through Formspark, an EU-based service. Leave empty to make them open the visitor's email app instead.
 # The confidential pre-mediation questionnaire never uses Formspark.
@@ -751,8 +751,7 @@ def build():
         title = meta["title"]
         desc = meta["description"]
         canonical = url_for(meta.get("canonical", path))
-        robots = ('<!-- PRE-LAUNCH: keeps the temporary preview out of Google. Remove at go-live (see DEPLOY.md). -->\n'
-                  '<meta name="robots" content="noindex">\n') if NOINDEX or ptype == "404" else ""
+        robots = '<meta name="robots" content="noindex">\n' if NOINDEX or ptype == "404" else ""
         ld = ""
         if schema:
             ld = ('<script type="application/ld+json">' +
