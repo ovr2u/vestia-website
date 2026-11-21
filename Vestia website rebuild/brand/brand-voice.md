@@ -148,7 +148,7 @@ Vestia Mediation: empathy-led property, civil and commercial mediation across th
 - Punjabi and Hindi speaking mediator
 - Online, in person, hybrid; evenings and weekends
 - Published fee menu
-- Approved testimonials, quoted word for word, where the person has given permission and the quote doesn't identify the parties or the outcome. Currently one: Anthony Hayes, Huntingdonshire District Council, on Lucie-Anne (permission given; the full quote is on the website)
+- Approved testimonials, quoted word for word, where the person has given permission and the quote doesn't identify the parties or the outcome. Currently two, both on the website: Anthony Hayes, Huntingdonshire District Council, on Lucie-Anne (permission given), and Maddie Binkley, Rosenblatt Law, on Gurprit (supplied by Vestia for the website, November 2026)
 - DO NOT CLAIM: settlement/success rates, case numbers, unapproved testimonials, "all mediators CMC registered"
 
 ## CONTENT PILLARS (forever topics)

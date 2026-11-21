@@ -282,19 +282,61 @@ def mediator_list(r, group):
     return "".join(out)
 
 
-HDC_QUOTE = """<figure class="quote">
-<svg class="mark-q" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path fill="currentColor" d="M13 6C7 8.5 3 13.4 3 19.6 3 24 5.7 27 9.4 27c3.2 0 5.6-2.4 5.6-5.5 0-3-2.2-5.2-5-5.4.6-3.3 3.1-6.2 6.6-7.9L13 6Zm15 0c-6 2.5-10 7.4-10 13.6 0 4.4 2.7 7.4 6.4 7.4 3.2 0 5.6-2.4 5.6-5.5 0-3-2.2-5.2-5-5.4.6-3.3 3.1-6.2 6.6-7.9L28 6Z"/></svg>
-<blockquote>
-<p>Having worked with Lucie-Anne on a long-running and complex neighbour dispute case for Huntingdonshire District Council, I found her to be highly professional, organised and approachable throughout. She demonstrated excellent communication skills with all parties involved and worked tirelessly to create opportunities for constructive dialogue in what was an extremely challenging matter.</p>
-{rest}
-</blockquote>
-<figcaption><footer><strong>Anthony Hayes</strong>, Huntingdonshire District Council{about}</footer></figcaption>
-</figure>"""
+QUOTE_MARK = ('<svg class="mark-q" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path fill="currentColor" '
+              'd="M13 6C7 8.5 3 13.4 3 19.6 3 24 5.7 27 9.4 27c3.2 0 5.6-2.4 5.6-5.5 0-3-2.2-5.2-5-5.4.6-3.3 3.1-6.2 6.6-7.9L13 6Zm15 '
+              '0c-6 2.5-10 7.4-10 13.6 0 4.4 2.7 7.4 6.4 7.4 3.2 0 5.6-2.4 5.6-5.5 0-3-2.2-5.2-5-5.4.6-3.3 3.1-6.2 6.6-7.9L28 6Z"/></svg>')
 
-HDC_REST = ("<p>Her preparation, neutrality and attention to detail were evident throughout the process, and despite the "
-            "complexities involved, she remained pragmatic, impartial and committed to achieving a positive outcome wherever "
-            "possible. Her work was greatly appreciated and I would not hesitate to recommend her mediation services to other "
-            "organisations managing complex community disputes.</p>")
+# Approved testimonials, word for word (brand voice HARD RULE 6). They appear in the homepage carousel, in this order,
+# and in full on the profile of the mediator they are about ({{QUOTE:key}}). To add one, add an entry here.
+# "carousel_paras" shows only the opening paragraph(s) in the carousel, so the slides are a similar length.
+TESTIMONIALS = [
+    {"mediator": "gurprit", "name": "Maddie Binkley", "org": "Rosenblatt Law", "paras": [
+        "Gurprit brings the ideal balance of empathy and commercial pragmatism to the mediation process, effortlessly "
+        "managing varying personalities to keep all focused on a resolution. She quickly cuts through matters to help the "
+        "parties find common ground and work towards a resolution."]},
+    {"mediator": "lucie", "name": "Anthony Hayes", "org": "Huntingdonshire District Council", "carousel_paras": 1, "paras": [
+        "Having worked with Lucie-Anne on a long-running and complex neighbour dispute case for Huntingdonshire District "
+        "Council, I found her to be highly professional, organised and approachable throughout. She demonstrated excellent "
+        "communication skills with all parties involved and worked tirelessly to create opportunities for constructive "
+        "dialogue in what was an extremely challenging matter.",
+        "Her preparation, neutrality and attention to detail were evident throughout the process, and despite the "
+        "complexities involved, she remained pragmatic, impartial and committed to achieving a positive outcome wherever "
+        "possible. Her work was greatly appreciated and I would not hesitate to recommend her mediation services to other "
+        "organisations managing complex community disputes."]},
+]
+
+
+def quote_html(q, r, about=False, carousel=False):
+    shown = q["paras"][:q.get("carousel_paras")] if carousel else q["paras"]
+    paras = "".join(f"<p>{esc(x)}</p>" for x in shown)
+    who = f'<strong>{esc(q["name"])}</strong>, {esc(q["org"])}'
+    if about:
+        m = MEDIATORS[q["mediator"]]
+        who += f', on <a href="{r}{m["path"]}">{esc(m["name"])}</a>'
+    return (f'<figure class="quote">{QUOTE_MARK}<blockquote>{paras}</blockquote>'
+            f'<figcaption><footer>{who}</footer></figcaption></figure>')
+
+
+def chevron(d):
+    path = "M15 5l-7 7 7 7" if d == "prev" else "M9 5l7 7-7 7"
+    return (f'<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="{path}" fill="none" '
+            'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+
+
+def carousel_html(r):
+    """Testimonials carousel. Without JavaScript the quotes stack; with it they sit in a swipeable row with previous and
+    next buttons (site.js). Nothing moves on its own."""
+    n = len(TESTIMONIALS)
+    slides = "".join(
+        f'<div class="carousel-slide quote-card" role="group" aria-roledescription="slide" aria-label="{i} of {n}">'
+        f'{quote_html(q, r, about=True, carousel=True)}</div>' for i, q in enumerate(TESTIMONIALS, 1))
+    return ('<div class="carousel" role="region" aria-roledescription="carousel" aria-label="Testimonials">'
+            f'<div class="carousel-track">{slides}</div>'
+            '<div class="carousel-controls js-only">'
+            f'<button type="button" class="carousel-btn" data-prev aria-label="Previous testimonial">{chevron("prev")}</button>'
+            f'<span class="carousel-count" aria-live="polite">1 of {n}</span>'
+            f'<button type="button" class="carousel-btn" data-next aria-label="Next testimonial">{chevron("next")}</button>'
+            '</div></div>')
 
 FEE_TABLE = """<table class="fee-table">
 <caption>Mediation fees 2026: Specialist Mediator rates</caption>
@@ -601,8 +643,9 @@ def build():
         body = body.replace("{{TEAM_STRIP}}", team_strip(r))
         body = body.replace("{{MEDIATORS_PROPERTY}}", mediator_list(r, "property"))
         body = body.replace("{{MEDIATORS_WIDER}}", mediator_list(r, "wider"))
-        body = body.replace("{{HDC_QUOTE}}", HDC_QUOTE.format(rest=HDC_REST, about=""))
-        body = body.replace("{{HDC_QUOTE_SHORT}}", HDC_QUOTE.format(rest="", about=f', on <a href="{r}lucie-annerhodes">Lucie-Anne Rhodes</a>'))
+        body = body.replace("{{TESTIMONIAL_CAROUSEL}}", carousel_html(r))
+        body = re.sub(r"\{\{QUOTE:(\w+)\}\}",
+                      lambda mt: "".join(quote_html(q, r) for q in TESTIMONIALS if q["mediator"] == mt.group(1)), body)
         body = body.replace("{{FEE_TABLE}}", FEE_TABLE)
         body = body.replace("{{FACILITATION_FEES}}", FACILITATION_FEES)
         body = body.replace("{{VALUES}}", values_html())

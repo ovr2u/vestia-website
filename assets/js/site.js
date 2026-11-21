@@ -362,6 +362,44 @@
     });
   });
 
+  /* ---------- Testimonial carousel ----------
+     Without JavaScript the quotes simply stack. With it they sit in a swipeable row with previous and next buttons
+     that wrap round. Nothing moves on its own. */
+  doc.querySelectorAll('.carousel').forEach(function (c) {
+    var track = c.querySelector('.carousel-track');
+    var slides = Array.prototype.slice.call(track.children);
+    var count = c.querySelector('.carousel-count');
+    var current = 0;
+    if (slides.length < 2) { c.querySelector('.carousel-controls').hidden = true; return; }
+    function setCount(i) { current = i; count.textContent = (i + 1) + ' of ' + slides.length; }
+    function show(i) {
+      i = (i + slides.length) % slides.length;
+      setCount(i);
+      track.scrollTo({ left: slides[i].offsetLeft });
+    }
+    function nearest() {
+      var best = 0;
+      slides.forEach(function (s, i) {
+        if (Math.abs(s.offsetLeft - track.scrollLeft) < Math.abs(slides[best].offsetLeft - track.scrollLeft)) best = i;
+      });
+      return best;
+    }
+    var settle;
+    track.addEventListener('scroll', function () {
+      clearTimeout(settle);
+      settle = setTimeout(function () { var i = nearest(); if (i !== current) setCount(i); }, 120);
+    }, { passive: true });
+    c.querySelector('[data-prev]').addEventListener('click', function () { show(current - 1); });
+    c.querySelector('[data-next]').addEventListener('click', function () { show(current + 1); });
+    // Keep the current quote lined up if the screen size changes, for example when a phone is turned round.
+    window.addEventListener('resize', function () { track.scrollTo({ left: slides[current].offsetLeft, behavior: 'instant' }); });
+    // Tabbing to a link in another quote brings that quote into view.
+    track.addEventListener('focusin', function (e) {
+      var i = slides.indexOf(e.target.closest('.carousel-slide'));
+      if (i >= 0 && i !== current) show(i);
+    });
+  });
+
   /* ---------- 3. Intake wizard ---------- */
   var intake = doc.getElementById('intake-form');
   if (intake) {

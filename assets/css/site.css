@@ -223,6 +223,17 @@ hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
 .quote footer{margin-top:16px;font-size:.9375rem;color:var(--muted)}
 .quote footer strong{color:var(--ink);font-weight:700}
 .quote-card{background:var(--paper);border-left:2px solid var(--beige);padding:clamp(22px,3vw,32px)}
+.carousel{min-width:0}
+.carousel-track{display:grid;gap:18px}
+.js .carousel-track{display:flex;gap:0;position:relative;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
+.js .carousel-track::-webkit-scrollbar{display:none}
+.js .carousel-slide{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always}
+@media (prefers-reduced-motion:no-preference){.js .carousel-track{scroll-behavior:smooth}}
+.carousel-controls{display:flex;align-items:center;gap:10px;margin-top:16px}
+.carousel-btn{width:44px;height:44px;display:inline-grid;place-items:center;padding:0;border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer}
+.carousel-btn:hover{background:var(--ink);color:var(--cream)}
+.carousel-btn svg{width:20px;height:20px}
+.carousel-count{min-width:4.5em;text-align:center;font-size:.9375rem;color:var(--muted)}
 
 /* Process steps */
 .steps{list-style:none;padding:0;margin:0;counter-reset:step;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(18px,2.6vw,32px)}
