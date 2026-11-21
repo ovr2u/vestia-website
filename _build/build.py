@@ -286,15 +286,17 @@ QUOTE_MARK = ('<svg class="mark-q" viewBox="0 0 32 32" aria-hidden="true" focusa
               'd="M13 6C7 8.5 3 13.4 3 19.6 3 24 5.7 27 9.4 27c3.2 0 5.6-2.4 5.6-5.5 0-3-2.2-5.2-5-5.4.6-3.3 3.1-6.2 6.6-7.9L13 6Zm15 '
               '0c-6 2.5-10 7.4-10 13.6 0 4.4 2.7 7.4 6.4 7.4 3.2 0 5.6-2.4 5.6-5.5 0-3-2.2-5.2-5-5.4.6-3.3 3.1-6.2 6.6-7.9L28 6Z"/></svg>')
 
-# Approved testimonials, word for word (brand voice HARD RULE 6). They appear in the homepage carousel, in this order,
-# and in full on the profile of the mediator they are about ({{QUOTE:key}}). To add one, add an entry here.
+# Approved testimonials, word for word (brand voice HARD RULE 6). Each appears in full on the profile of the mediator
+# it is about ({{TESTIMONIALS_FOR:mediator}}) and, unless "carousel" is False, in the homepage carousel, in this order.
+# {{QUOTE:id}} places a single quote anywhere else. To add one, add an entry here.
 # "carousel_paras" shows only the opening paragraph(s) in the carousel, so the slides are a similar length.
+# "anonymous" entries are from mediation parties: no name, organisation, case type or date.
 TESTIMONIALS = [
-    {"mediator": "gurprit", "name": "Maddie Binkley", "org": "Rosenblatt Law", "paras": [
+    {"id": "rosenblatt", "mediator": "gurprit", "name": "Maddie Binkley", "org": "Rosenblatt Law", "paras": [
         "Gurprit brings the ideal balance of empathy and commercial pragmatism to the mediation process, effortlessly "
         "managing varying personalities to keep all focused on a resolution. She quickly cuts through matters to help the "
         "parties find common ground and work towards a resolution."]},
-    {"mediator": "lucie", "name": "Anthony Hayes", "org": "Huntingdonshire District Council", "carousel_paras": 1, "paras": [
+    {"id": "hdc", "mediator": "lucie", "name": "Anthony Hayes", "org": "Huntingdonshire District Council", "carousel_paras": 1, "paras": [
         "Having worked with Lucie-Anne on a long-running and complex neighbour dispute case for Huntingdonshire District "
         "Council, I found her to be highly professional, organised and approachable throughout. She demonstrated excellent "
         "communication skills with all parties involved and worked tirelessly to create opportunities for constructive "
@@ -303,18 +305,35 @@ TESTIMONIALS = [
         "complexities involved, she remained pragmatic, impartial and committed to achieving a positive outcome wherever "
         "possible. Her work was greatly appreciated and I would not hesitate to recommend her mediation services to other "
         "organisations managing complex community disputes."]},
+    {"id": "unsettled", "mediator": "lucie", "anonymous": True, "carousel": False, "name": "A party to a mediation",
+     "paras": [
+        "Ours was a difficult case, with fractured relationships between the parties. I held out very little hope for a "
+        "solution to be found between us through mediation. Although in the end we didn't quite get there, we did get "
+        "remarkably close, all due to the skill and persistence demonstrated by Lucie-Anne Rhodes."]},
 ]
 
 
 def quote_html(q, r, about=False, carousel=False):
     shown = q["paras"][:q.get("carousel_paras")] if carousel else q["paras"]
     paras = "".join(f"<p>{esc(x)}</p>" for x in shown)
-    who = f'<strong>{esc(q["name"])}</strong>, {esc(q["org"])}'
-    if about:
-        m = MEDIATORS[q["mediator"]]
-        who += f', on <a href="{r}{m["path"]}">{esc(m["name"])}</a>'
+    m = MEDIATORS[q["mediator"]]
+    link = f'<a href="{r}{m["path"]}">{esc(m["name"])}</a>'
+    if q.get("anonymous"):
+        named = any(m["name"] in x for x in q["paras"])  # don't repeat the mediator's name straight after the quote
+        who = esc(q["name"]) + (f" with {link}" if about and not named else "")
+    else:
+        who = f'<strong>{esc(q["name"])}</strong>, {esc(q["org"])}' + (f", on {link}" if about else "")
     return (f'<figure class="quote">{QUOTE_MARK}<blockquote>{paras}</blockquote>'
             f'<figcaption><footer>{who}</footer></figcaption></figure>')
+
+
+def testimonials_for(key, r):
+    """Heading plus one card per testimonial, for a mediator's profile page."""
+    qs = [q for q in TESTIMONIALS if q["mediator"] == key]
+    if not qs:
+        return ""
+    head = "Testimonial" if len(qs) == 1 else "Testimonials"
+    return f"<h2>{head}</h2>" + "".join(f'<div class="quote-card">{quote_html(q, r)}</div>' for q in qs)
 
 
 def chevron(d):
@@ -326,10 +345,11 @@ def chevron(d):
 def carousel_html(r):
     """Testimonials carousel. Without JavaScript the quotes stack; with it they sit in a swipeable row with previous and
     next buttons (site.js). Nothing moves on its own."""
-    n = len(TESTIMONIALS)
+    shown = [q for q in TESTIMONIALS if q.get("carousel", True)]
+    n = len(shown)
     slides = "".join(
         f'<div class="carousel-slide quote-card" role="group" aria-roledescription="slide" aria-label="{i} of {n}">'
-        f'{quote_html(q, r, about=True, carousel=True)}</div>' for i, q in enumerate(TESTIMONIALS, 1))
+        f'{quote_html(q, r, about=True, carousel=True)}</div>' for i, q in enumerate(shown, 1))
     return ('<div class="carousel" role="region" aria-roledescription="carousel" aria-label="Testimonials">'
             f'<div class="carousel-track">{slides}</div>'
             '<div class="carousel-controls js-only">'
@@ -567,7 +587,8 @@ def faq_schema(body):
     qs = []
     for m in re.finditer(r'<details[^>]*>\s*<summary><h3>(.*?)</h3></summary>\s*<div class="answer">(.*?)</div>\s*</details>', body, re.S):
         q = re.sub(r"<[^>]+>", "", m.group(1)).strip()
-        a = re.sub(r"\s+", " ", re.sub(r'href="~/', f'href="{SITE_URL}/', m.group(2))).strip()
+        a = re.sub(r'<div class="quote-card">.*?</figure></div>|\{\{QUOTE:\w+\}\}', "", m.group(2), flags=re.S)
+        a = re.sub(r"\s+", " ", re.sub(r'href="~/', f'href="{SITE_URL}/', a)).strip()
         qs.append({"@type": "Question", "name": html.unescape(q), "acceptedAnswer": {"@type": "Answer", "text": a}})
     return {"@type": "FAQPage", "mainEntity": qs}
 
@@ -644,8 +665,9 @@ def build():
         body = body.replace("{{MEDIATORS_PROPERTY}}", mediator_list(r, "property"))
         body = body.replace("{{MEDIATORS_WIDER}}", mediator_list(r, "wider"))
         body = body.replace("{{TESTIMONIAL_CAROUSEL}}", carousel_html(r))
-        body = re.sub(r"\{\{QUOTE:(\w+)\}\}",
-                      lambda mt: "".join(quote_html(q, r) for q in TESTIMONIALS if q["mediator"] == mt.group(1)), body)
+        body = re.sub(r"\{\{TESTIMONIALS_FOR:(\w+)\}\}", lambda mt: testimonials_for(mt.group(1), r), body)
+        body = re.sub(r"\{\{QUOTE:(\w+)\}\}", lambda mt: "".join(
+            f'<div class="quote-card">{quote_html(q, r, about=True)}</div>' for q in TESTIMONIALS if q["id"] == mt.group(1)), body)
         body = body.replace("{{FEE_TABLE}}", FEE_TABLE)
         body = body.replace("{{FACILITATION_FEES}}", FACILITATION_FEES)
         body = body.replace("{{VALUES}}", values_html())

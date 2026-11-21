@@ -223,6 +223,7 @@ hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
 .quote footer{margin-top:16px;font-size:.9375rem;color:var(--muted)}
 .quote footer strong{color:var(--ink);font-weight:700}
 .quote-card{background:var(--paper);border-left:2px solid var(--beige);padding:clamp(22px,3vw,32px)}
+.quote-card + .quote-card,.answer .quote-card{margin-top:18px}
 .carousel{min-width:0}
 .carousel-track{display:grid;gap:18px}
 .js .carousel-track{display:flex;gap:0;position:relative;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}

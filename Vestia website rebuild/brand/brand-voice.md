@@ -15,7 +15,7 @@
 3. **Flexibility in every direction.** Never knock the full-day, full-bundle mediation. Some disputes need exactly that, and many lawyers prefer it. Present options side by side; never rank them.
 4. **Heard first, challenged later.** Posts never open by challenging or lecturing the reader. Empathy before reality testing, always.
 5. **Never claim outcomes.** No settlement rates, no success rates, no "we settled it". Success is measured in different ways.
-6. **Confidentiality.** Real mediations are only ever described in general terms: either a broad case type ("a service charge dispute") in a general-pattern post, or a story with no case type at all. Never times, places, sums, names, genders, the referring body, or anything that could identify anyone. When in doubt, generalise or leave it out. **The one exception is an approved testimonial:** it can be quoted word for word, with the name and organisation of the person who gave it, provided they have given permission and the quote doesn't identify the parties or the outcome.
+6. **Confidentiality.** Real mediations are only ever described in general terms: either a broad case type ("a service charge dispute") in a general-pattern post, or a story with no case type at all. Never times, places, sums, names, genders, the referring body, or anything that could identify anyone. When in doubt, generalise or leave it out. **The one exception is an approved testimonial:** it can be quoted word for word, with the name and organisation of the person who gave it, provided they have given permission and the quote doesn't identify the parties or the outcome. A testimonial from a mediation party is credited anonymously ("A party to a mediation"), with no case type, date or other detail, and may mention in general terms how far the mediation got, provided nobody could work out which case it was.
 7. **Never criticise other mediators or firms.** Say what Vestia does, never what others don't.
 8. **Every post picks ONE reader** (e.g. "a litigation solicitor with a stuck service charge case"). Across a month, rotate through all specialisms so the brand stays broad while each post stays sharp.
 
@@ -148,7 +148,7 @@ Vestia Mediation: empathy-led property, civil and commercial mediation across th
 - Punjabi and Hindi speaking mediator
 - Online, in person, hybrid; evenings and weekends
 - Published fee menu
-- Approved testimonials, quoted word for word, where the person has given permission and the quote doesn't identify the parties or the outcome. Currently two, both on the website: Anthony Hayes, Huntingdonshire District Council, on Lucie-Anne (permission given), and Maddie Binkley, Rosenblatt Law, on Gurprit (supplied by Vestia for the website, November 2026)
+- Approved testimonials, quoted word for word, where the person has given permission and the quote doesn't identify the parties or the outcome. Currently three, all on the website: Anthony Hayes, Huntingdonshire District Council, on Lucie-Anne (permission given); Maddie Binkley, Rosenblatt Law, on Gurprit (supplied by Vestia for the website, November 2026); and an anonymous party to a mediation, on Lucie-Anne (permission given, November 2026)
 - DO NOT CLAIM: settlement/success rates, case numbers, unapproved testimonials, "all mediators CMC registered"
 
 ## CONTENT PILLARS (forever topics)
